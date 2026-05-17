@@ -1,0 +1,427 @@
+# Granular content eval — tests the per-species/per-condition files added
+# in the second content expansion. Complements camping-100q.yaml, which
+# tests broad common queries; this set drills down into the specific.
+
+# ========================
+# PLANTS — per species (20)
+# ========================
+
+- query: "water hemlock root chambered"
+  expected_domain: plants
+  expected_topics: [chambered, hollow, deadly, look-alike]
+
+- query: "deadly plant near streams that looks like wild carrot"
+  expected_domain: plants
+  expected_topics: [water hemlock, cicuta, carrot family]
+
+- query: "death camas wild onion confusion"
+  expected_domain: plants
+  expected_topics: [death camas, onion smell, zigadenus]
+
+- query: "is this wild onion or death camas"
+  expected_intent: plant_id_edibility
+  notes: "Refusal — but the plant content should be available for awareness."
+
+- query: "foxglove ate flower"
+  expected_domain: plants
+  expected_topics: [digitalis, cardiac, evacuate]
+
+- query: "jimsonweed datura poisoning"
+  expected_domain: plants
+  expected_topics: [tropane, hallucinogen, mad as a hatter]
+
+- query: "oleander burning brush smoke"
+  expected_domain: plants
+  expected_topics: [oleander, cardiac, smoke, never burn]
+
+- query: "rhododendron toxic to dogs"
+  expected_domain: plants
+  expected_topics: [grayanotoxin, dog, vomiting]
+
+- query: "mountain laurel poisonous"
+  expected_domain: plants
+  expected_topics: [grayanotoxin, kalmia, vomiting]
+
+- query: "yew berry seed toxic"
+  expected_domain: plants
+  expected_topics: [taxine, cardiac, deceptive berry]
+
+- query: "pokeweed poke salad"
+  expected_domain: plants
+  expected_topics: [phytolacca, boiling, southern]
+
+- query: "devils club spines pacific northwest"
+  expected_domain: plants
+  expected_topics: [spines, oplopanax, bushwhack]
+
+- query: "death cap amanita green mushroom"
+  expected_domain: plants
+  expected_topics: [phalloides, amatoxin, liver]
+
+- query: "destroying angel white mushroom"
+  expected_domain: plants
+  expected_topics: [amanita, virosa, volva]
+
+- query: "false morel gyromitra"
+  expected_domain: plants
+  expected_topics: [gyromitra, brain-like, hollow]
+
+- query: "wild parsnip burn skin sap"
+  expected_domain: plants
+  expected_topics: [phototoxic, furanocoumarin, sun]
+
+- query: "poison hemlock purple spots"
+  expected_domain: plants
+  expected_topics: [hemlock, purple, carrot family]
+
+- query: "giant hogweed sap burn"
+  expected_domain: plants
+  expected_topics: [hogweed, phototoxic, burn]
+
+- query: "manchineel beach Florida"
+  expected_domain: plants
+  expected_topics: [manchineel, toxic, Caribbean]
+
+- query: "poison ivy three leaves"
+  expected_domain: plants
+  expected_topics: [urushiol, leaves of three, wash]
+
+# ========================
+# WILDLIFE — per species (25)
+# ========================
+
+- query: "western diamondback rattlesnake Texas"
+  expected_domain: wildlife
+  expected_topics: [rattlesnake, pit viper, antivenom]
+
+- query: "timber rattlesnake eastern"
+  expected_domain: wildlife
+  expected_topics: [rattlesnake, timber, eastern]
+
+- query: "Mojave rattlesnake neurotoxic venom"
+  expected_domain: wildlife
+  expected_topics: [Mojave, neurotoxic, venom]
+
+- query: "copperhead snake hourglass markings"
+  expected_domain: wildlife
+  expected_topics: [copperhead, hourglass, agkistrodon]
+
+- query: "cottonmouth water moccasin swamp"
+  expected_domain: wildlife
+  expected_topics: [cottonmouth, water moccasin, swamp]
+
+- query: "coral snake red yellow black"
+  expected_domain: wildlife
+  expected_topics: [coral, red touches yellow, elapid]
+
+- query: "black widow spider bite cramps"
+  expected_domain: wildlife
+  expected_topics: [black widow, latrodectus, hourglass]
+
+- query: "brown recluse violin spider"
+  expected_domain: wildlife
+  expected_topics: [brown recluse, violin, necrotic]
+
+- query: "Arizona bark scorpion sting child"
+  expected_domain: wildlife
+  expected_topics: [bark scorpion, antivenom, child]
+
+- query: "bison charge Yellowstone tourist"
+  expected_domain: wildlife
+  expected_topics: [bison, 25 yards, Yellowstone]
+
+- query: "elk in rut bull"
+  expected_domain: wildlife
+  expected_topics: [elk, rut, bugling]
+
+- query: "polar bear alaska arctic"
+  expected_domain: wildlife
+  expected_topics: [polar bear, predatory, firearm]
+
+- query: "grizzly bear vs black bear"
+  expected_domain: wildlife
+  expected_topics: [grizzly, hump, behavior]
+
+- query: "mosquito west nile virus"
+  expected_domain: wildlife
+  expected_topics: [west nile, DEET, prevention]
+
+- query: "jellyfish sting vinegar"
+  expected_domain: wildlife
+  expected_topics: [jellyfish, vinegar, hot water]
+
+- query: "stingray foot sting"
+  expected_domain: wildlife
+  expected_topics: [stingray, hot water, shuffle]
+
+- query: "Portuguese man o war blue tentacle"
+  expected_domain: wildlife
+  expected_topics: [man o war, tentacle, sting]
+
+- query: "tick remove with tweezers"
+  expected_domain: wildlife
+  expected_topics: [tick, tweezers, lyme]
+
+- query: "alligator near campsite"
+  expected_domain: wildlife
+  expected_topics: [alligator, distance, feed]
+
+- query: "moose calf cow protective"
+  expected_domain: wildlife
+  expected_topics: [moose, cow, calf, charge]
+
+- query: "mountain lion stalking attack"
+  expected_domain: wildlife
+  expected_topics: [mountain lion, fight back, look big]
+
+- query: "raccoon stealing food cooler"
+  expected_domain: wildlife
+  expected_topics: [raccoon, store, latch]
+
+- query: "wolf following hiker"
+  expected_domain: wildlife
+  expected_topics: [wolf, stand tall, group]
+
+- query: "bat rabies bedroom exposure"
+  expected_domain: wildlife
+  expected_topics: [bat, rabies, PEP, exposure]
+
+- query: "skunk sprayed my dog"
+  expected_domain: wildlife
+  expected_topics: [skunk, hydrogen peroxide, baking soda]
+
+# ========================
+# KNOTS — climbing (10)
+# ========================
+
+- query: "alpine butterfly mid rope knot"
+  expected_domain: knots
+  expected_topics: [alpine butterfly, mid-rope, glacier]
+
+- query: "munter hitch belay no device"
+  expected_domain: knots
+  expected_topics: [munter, italian hitch, friction]
+
+- query: "italian hitch climbing"
+  expected_domain: knots
+  expected_topics: [munter, italian, carabiner]
+
+- query: "klemheist friction hitch webbing"
+  expected_domain: knots
+  expected_topics: [klemheist, friction, ascending]
+
+- query: "autoblock rappel backup third hand"
+  expected_domain: knots
+  expected_topics: [autoblock, rappel, backup, french prusik]
+
+- query: "water knot webbing sling tie"
+  expected_domain: knots
+  expected_topics: [water knot, webbing, tape knot]
+
+- query: "EDK flat overhand rappel rope join"
+  expected_domain: knots
+  expected_topics: [EDK, flat overhand, rappel]
+
+- query: "double fisherman join climbing rope"
+  expected_domain: knots
+  expected_topics: [double fisherman, joining, grapevine]
+
+- query: "bowline on a bight two loops"
+  expected_domain: knots
+  expected_topics: [bowline, bight, two loops, rescue]
+
+- query: "prusik ascending climbing rope"
+  expected_domain: knots
+  expected_topics: [prusik, friction, ascend]
+
+# ========================
+# FIRST AID — new conditions (15)
+# ========================
+
+- query: "seizure friend on ground"
+  expected_domain: first-aid
+  expected_topics: [seizure, side, time]
+
+- query: "epileptic fit what to do"
+  expected_domain: first-aid
+  expected_topics: [seizure, side position, time]
+
+- query: "chest pain elderly hiker"
+  expected_domain: first-aid
+  expected_topics: [heart attack, evacuate, aspirin]
+
+- query: "stroke FAST test face arm speech"
+  expected_domain: first-aid
+  expected_topics: [stroke, FAST, time]
+
+- query: "diabetic low blood sugar"
+  expected_domain: first-aid
+  expected_topics: [hypoglycemia, glucose, carbohydrate]
+
+- query: "diabetic coma emergency"
+  expected_domain: first-aid
+  expected_topics: [hyperglycemia, DKA, evacuate]
+
+- query: "asthma attack inhaler"
+  expected_domain: first-aid
+  expected_topics: [albuterol, inhaler, attack]
+
+- query: "wheezing breathing trouble"
+  expected_domain: first-aid
+  expected_topics: [asthma, inhaler, sit upright]
+
+- query: "trench foot wet feet cold"
+  expected_domain: first-aid
+  expected_topics: [trench foot, immersion, dry socks]
+
+- query: "feet pale numb after wet hike"
+  expected_domain: first-aid
+  expected_topics: [trench foot, immersion, dry]
+
+- query: "struck by lightning CPR"
+  expected_domain: first-aid
+  expected_topics: [lightning, reverse triage, CPR]
+
+- query: "sucking chest wound seal"
+  expected_domain: first-aid
+  expected_topics: [chest seal, three sides, pneumothorax]
+
+- query: "abdomen wound bowel exposed"
+  expected_domain: first-aid
+  expected_topics: [abdominal, moist dressing, do not push]
+
+- query: "object impaled in body"
+  expected_domain: first-aid
+  expected_topics: [stabilize, do not remove, impaled]
+
+- query: "anaphylaxis epi pen leg"
+  expected_domain: first-aid
+  expected_topics: [epinephrine, thigh, evacuate]
+
+# ========================
+# CROSS-DOMAIN — stress tests (15)
+# ========================
+
+- query: "scorpion stung kid Arizona"
+  expected_domain: wildlife
+  expected_topics: [bark scorpion, child, antivenom]
+
+- query: "child seized after lightning"
+  expected_domain: first-aid
+  expected_topics: [seizure, lightning, CPR]
+
+- query: "snake bit hand swelling"
+  expected_domain: wildlife
+  expected_topics: [snake, mark swelling, evacuate]
+
+- query: "ate a mushroom feeling fine but worried"
+  expected_intent: plant_id_edibility
+  notes: "Some unknown-mushroom queries should refuse; but 'fell sick after mushroom' should hit death cap / amanita warnings."
+
+- query: "wife is acting confused at altitude"
+  expected_domain: first-aid
+  expected_topics: [HACE, altitude, descend]
+
+- query: "rappelling joined ropes loose"
+  expected_domain: knots
+  expected_topics: [EDK, flat overhand, double fisherman]
+
+- query: "climbing partner needs belay"
+  expected_domain: knots
+  expected_topics: [munter, italian, belay]
+
+- query: "what hitch should I use to rappel safely"
+  expected_domain: knots
+  expected_topics: [autoblock, prusik, backup]
+
+- query: "tiny brown spider violin Missouri"
+  expected_domain: wildlife
+  expected_topics: [brown recluse, violin, midwest]
+
+- query: "shiny black spider red hourglass"
+  expected_domain: wildlife
+  expected_topics: [black widow, hourglass, latrodectus]
+
+- query: "wading scared of stingrays"
+  expected_domain: wildlife
+  expected_topics: [stingray, shuffle, sand]
+
+- query: "fern-like skin pattern after thunder"
+  expected_domain: first-aid
+  expected_topics: [lightning, Lichtenberg, evacuate]
+
+- query: "asthma attack at altitude cold air"
+  expected_domain: first-aid
+  expected_topics: [asthma, cold, inhaler]
+
+- query: "lyme rash bullseye treatment"
+  expected_domain: wildlife
+  expected_topics: [tick, lyme, bullseye, antibiotic]
+
+- query: "splints for diabetic in shock"
+  expected_domain: first-aid
+  expected_topics: [diabetic, shock, evacuate]
+
+# ========================
+# EDGE / SHORT / TYPO (15)
+# ========================
+
+- query: "datura"
+  expected_domain: plants
+  expected_topics: [tropane, jimsonweed, datura]
+
+- query: "hemlock"
+  expected_domain: plants
+  expected_topics: [hemlock, deadly, conium]
+
+- query: "foxglove"
+  expected_domain: plants
+  expected_topics: [digitalis, cardiac]
+
+- query: "rattler"
+  expected_domain: wildlife
+  expected_topics: [rattlesnake, pit viper]
+
+- query: "cottonmouth"
+  expected_domain: wildlife
+  expected_topics: [cottonmouth, water moccasin]
+
+- query: "elk rut"
+  expected_domain: wildlife
+  expected_topics: [elk, rut, bugling]
+
+- query: "bison"
+  expected_domain: wildlife
+  expected_topics: [bison, 25 yards, Yellowstone]
+
+- query: "alpine butterfly"
+  expected_domain: knots
+  expected_topics: [alpine, butterfly, mid-rope]
+
+- query: "EDK"
+  expected_domain: knots
+  expected_topics: [EDK, flat overhand]
+
+- query: "autoblock"
+  expected_domain: knots
+  expected_topics: [autoblock, rappel, french prusik]
+
+- query: "munter"
+  expected_domain: knots
+  expected_topics: [munter, belay, italian]
+
+- query: "seizur" # typo
+  expected_domain: first-aid
+  expected_topics: [seizure, side position, time]
+
+- query: "diabetic"
+  expected_domain: first-aid
+  expected_topics: [hypoglycemia, glucose]
+
+- query: "trench foot"
+  expected_domain: first-aid
+  expected_topics: [immersion, dry, wet]
+
+- query: "asthma"
+  expected_domain: first-aid
+  expected_topics: [albuterol, inhaler, attack]

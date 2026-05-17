@@ -65,6 +65,12 @@
     "url": "https://medlineplus.gov/anaphylaxis.html",
     "license": "author"
   },
+  "c838527b44f88276": {
+    "title": "Asthma Attack First Aid",
+    "publisher": "U.S. CDC / NIH",
+    "url": "https://www.cdc.gov/asthma/default.htm",
+    "license": "author"
+  },
   "2875b3f3b5c0b9a4": {
     "title": "Animal and Insect Bite First Aid",
     "publisher": "U.S. CDC",
@@ -89,6 +95,12 @@
     "url": "https://www.cdc.gov/disasters/firstaid.html",
     "license": "author"
   },
+  "b1ccd95ffc835091": {
+    "title": "Penetrating Chest and Abdominal Trauma",
+    "publisher": "U.S. Army FM 4-25.11 / general wilderness medicine",
+    "url": "",
+    "license": "author"
+  },
   "7a5ef8a782831d53": {
     "title": "Choking First Aid",
     "publisher": "U.S. NIH MedlinePlus",
@@ -99,6 +111,12 @@
     "title": "Hands-Only CPR \u2014 Public Guidance",
     "publisher": "American Heart Association (public outreach)",
     "url": "https://cpr.heart.org/",
+    "license": "author"
+  },
+  "dd9d04542d9f07f6": {
+    "title": "Diabetic Emergencies",
+    "publisher": "U.S. CDC / American Diabetes Association",
+    "url": "https://www.cdc.gov/diabetes/index.html",
     "license": "author"
   },
   "e5b6dddf923175a7": {
@@ -137,6 +155,12 @@
     "url": "https://www.cdc.gov/traumatic-brain-injury/signs-symptoms/index.html",
     "license": "public-domain"
   },
+  "d470baa9a8092881": {
+    "title": "Heart Attack and Stroke Recognition",
+    "publisher": "U.S. CDC / NIH",
+    "url": "https://www.cdc.gov/heartdisease/heart_attack.htm",
+    "license": "author"
+  },
   "8bd3d8295b12c4ce": {
     "title": "Heat Stress and Heat Illness",
     "publisher": "U.S. CDC / NIOSH",
@@ -149,10 +173,22 @@
     "url": "https://www.cdc.gov/disasters/winter/staysafe/hypothermia.html",
     "license": "author"
   },
+  "2c7c6983eca5dc0c": {
+    "title": "Lightning Strike First Aid",
+    "publisher": "U.S. CDC / National Weather Service",
+    "url": "https://www.weather.gov/safety/lightning-medical",
+    "license": "author"
+  },
   "5aa58339efe1e5da": {
     "title": "Nosebleed Care",
     "publisher": "U.S. NIH MedlinePlus",
     "url": "https://medlineplus.gov/ency/article/003106.htm",
+    "license": "author"
+  },
+  "7d150baa5853046a": {
+    "title": "Seizure First Aid",
+    "publisher": "U.S. CDC / Epilepsy Foundation",
+    "url": "https://www.cdc.gov/epilepsy/about/first-aid.htm",
     "license": "author"
   },
   "79aeb700043fe0c3": {
@@ -178,6 +214,12 @@
     "publisher": "U.S. Centers for Disease Control and Prevention",
     "url": "https://www.cdc.gov/ticks/after-a-tick-bite/index.html",
     "license": "public-domain"
+  },
+  "218d22e2cc65fb68": {
+    "title": "Trench Foot / Immersion Foot",
+    "publisher": "U.S. CDC",
+    "url": "https://www.cdc.gov/disasters/winter/staysafe/trenchfoot.html",
+    "license": "author"
   },
   "318bdb6712eed4af": {
     "title": "Wound Care in the Backcountry",
@@ -251,6 +293,18 @@
     "url": "https://www.nps.gov/subjects/hiking/safety.htm",
     "license": "author"
   },
+  "0f1d68ebf1c30dc8": {
+    "title": "Alpine Butterfly Knot",
+    "publisher": "General climbing practice",
+    "url": "",
+    "license": "author"
+  },
+  "86092bf94cfe632e": {
+    "title": "Bowline on a Bight",
+    "publisher": "General climbing and rescue practice",
+    "url": "",
+    "license": "author"
+  },
   "c5738d55485c4a9a": {
     "title": "The Ashley Book of Knots \u2014 Bowline references",
     "publisher": "general knot reference",
@@ -269,9 +323,21 @@
     "url": "",
     "license": "author"
   },
+  "596dbdd09106bd06": {
+    "title": "Flat Overhand (EDK) for Joining Rappel Ropes",
+    "publisher": "General climbing practice",
+    "url": "",
+    "license": "author"
+  },
   "6140fe3f2db98f2c": {
     "title": "Figure-Eight \u2014 general knot reference",
     "publisher": "general knot reference",
+    "url": "",
+    "license": "author"
+  },
+  "579448bc57118674": {
+    "title": "Klemheist and Autoblock Friction Hitches",
+    "publisher": "General climbing practice",
     "url": "",
     "license": "author"
   },
@@ -280,6 +346,12 @@
     "publisher": "U.S. Army (public domain)",
     "url": "https://armypubs.army.mil/",
     "license": "public-domain"
+  },
+  "df11ad041bd7a5e7": {
+    "title": "Munter Hitch (Italian Hitch)",
+    "publisher": "General climbing practice",
+    "url": "",
+    "license": "author"
   },
   "3bfbe835fe803ae1": {
     "title": "Friction Hitches \u2014 Field Reference",
@@ -308,6 +380,12 @@
   "ced235787030f3b7": {
     "title": "Basic Hitches and Bends \u2014 general knot reference",
     "publisher": "general knot reference",
+    "url": "",
+    "license": "author"
+  },
+  "770e5400d86533cf": {
+    "title": "Water Knot (Ring Bend)",
+    "publisher": "General climbing practice",
     "url": "",
     "license": "author"
   },
@@ -471,6 +549,12 @@
     "title": "Toxic Mushrooms",
     "publisher": "U.S. CDC / North American Mycological Association practice",
     "url": "https://www.cdc.gov/mmwr/preview/mmwrhtml/mm5602a3.htm",
+    "license": "author"
+  },
+  "076e3cce92bb167c": {
+    "title": "Wild Parsnip (Pastinaca sativa)",
+    "publisher": "USDA / Wisconsin DNR practice",
+    "url": "https://dnr.wisconsin.gov/topic/invasives/fact/wildparsnip.html",
     "license": "author"
   },
   "272377f2b241ea46": {
@@ -701,6 +785,12 @@
     "url": "https://www.fws.gov/species/american-alligator-alligator-mississippiensis",
     "license": "author"
   },
+  "6e25269a1a146469": {
+    "title": "Arizona Bark Scorpion (Centruroides sculpturatus)",
+    "publisher": "U.S. CDC / Arizona Poison Control",
+    "url": "https://www.cdc.gov/niosh/topics/spiders/",
+    "license": "author"
+  },
   "b60822a37b6d8434": {
     "title": "Rabies Information",
     "publisher": "U.S. CDC",
@@ -737,11 +827,47 @@
     "url": "https://www.cdc.gov/niosh/topics/insects/",
     "license": "author"
   },
+  "88d00910cc102b28": {
+    "title": "Bison Safety in National Parks",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/yell/learn/nature/bisonsafety.htm",
+    "license": "author"
+  },
   "90be91d3e48c337e": {
     "title": "Bear Identification \u2014 NPS Bear Safety Resources",
     "publisher": "U.S. National Park Service",
     "url": "https://www.nps.gov/subjects/bears/safety.htm",
     "license": "public-domain"
+  },
+  "cbdd1d8f1a4fcc6c": {
+    "title": "Black Widow Spider (Latrodectus species)",
+    "publisher": "U.S. CDC / NIOSH",
+    "url": "https://www.cdc.gov/niosh/topics/spiders/",
+    "license": "author"
+  },
+  "eb5d23d7b057bd41": {
+    "title": "Brown Recluse Spider (Loxosceles reclusa)",
+    "publisher": "U.S. CDC / NIOSH",
+    "url": "https://www.cdc.gov/niosh/topics/spiders/",
+    "license": "author"
+  },
+  "4e549f13a9788265": {
+    "title": "Copperhead Snake (Agkistrodon contortrix)",
+    "publisher": "U.S. CDC / state wildlife agencies",
+    "url": "https://www.cdc.gov/niosh/topics/outdoor/venomous-snakes.html",
+    "license": "author"
+  },
+  "aabf40de5f3e65f1": {
+    "title": "Coral Snake (Micrurus species)",
+    "publisher": "U.S. CDC / state wildlife agencies",
+    "url": "https://www.cdc.gov/niosh/topics/outdoor/venomous-snakes.html",
+    "license": "author"
+  },
+  "a24eaa4ea9b3377e": {
+    "title": "Cottonmouth / Water Moccasin (Agkistrodon piscivorus)",
+    "publisher": "U.S. CDC / state wildlife agencies",
+    "url": "https://www.cdc.gov/niosh/topics/outdoor/venomous-snakes.html",
+    "license": "author"
   },
   "4f507c7588130404": {
     "title": "Living with Wolves and Coyotes",
@@ -749,11 +875,23 @@
     "url": "https://www.fws.gov/species/gray-wolf-canis-lupus",
     "license": "author"
   },
+  "9d20c2835e902460": {
+    "title": "Elk Safety",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/articles/000/elk-safety.htm",
+    "license": "author"
+  },
   "619b6e41355cb29e": {
     "title": "Bear-Resistant Food Storage Guidelines",
     "publisher": "U.S. National Park Service / U.S. Forest Service",
     "url": "https://www.nps.gov/subjects/bears/safety.htm",
     "license": "public-domain"
+  },
+  "e21bb3c134ab5cb7": {
+    "title": "Marine Stings and Bites",
+    "publisher": "U.S. NOAA / NIH MedlinePlus",
+    "url": "https://medlineplus.gov/ency/article/002848.htm",
+    "license": "author"
   },
   "55a8caed5a9e9fd6": {
     "title": "Wildlife Safety in National Parks",
@@ -767,16 +905,34 @@
     "url": "https://www.nps.gov/wrst/planyourvisit/moose-safety.htm",
     "license": "public-domain"
   },
+  "a407bf3f3d6d1847": {
+    "title": "Mosquito-Borne Diseases in the US",
+    "publisher": "U.S. CDC",
+    "url": "https://www.cdc.gov/mosquitoes/index.html",
+    "license": "author"
+  },
   "2b2ab2af915c6ea8": {
     "title": "Mountain Lion Safety",
     "publisher": "U.S. National Park Service",
     "url": "https://www.nps.gov/articles/mountain-lion-safety.htm",
     "license": "public-domain"
   },
+  "260588814821f2ff": {
+    "title": "Polar Bear Safety",
+    "publisher": "U.S. Fish and Wildlife Service / NPS Alaska",
+    "url": "https://www.fws.gov/species/polar-bear-ursus-maritimus",
+    "license": "author"
+  },
   "5d25d8685fa8f2cb": {
     "title": "Small Mammal Concerns in the Outdoors",
     "publisher": "U.S. CDC",
     "url": "https://www.cdc.gov/hantavirus/index.html",
+    "license": "author"
+  },
+  "6aaed0e1a1df2895": {
+    "title": "Rattlesnakes \u2014 Species and Behavior",
+    "publisher": "U.S. CDC / USGS",
+    "url": "https://www.cdc.gov/niosh/topics/snakes/symptoms.html",
     "license": "author"
   },
   "694e94b3e9f33f53": {
