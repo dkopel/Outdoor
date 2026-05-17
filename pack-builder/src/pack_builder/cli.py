@@ -12,6 +12,8 @@ from rich.table import Table
 
 from .loader import load_pack_source
 from .packager import build_pack
+from .rag import answer as rag_answer
+from .rag import make_backend
 from .retriever import TrailpackReader
 from .safety import classify
 from .schemas import (
@@ -160,6 +162,84 @@ def query(query_text: str, pack: Path, k: int) -> None:
         body = c.text
         src = f"[dim]source: {c.source_title} — {c.source_publisher}[/dim]"
         console.print(Panel(f"{body}\n\n{src}", title=header, title_align="left"))
+
+
+@main.command()
+@click.argument("query_text", type=str)
+@click.option("--pack", "-p", required=True, type=click.Path(exists=True, path_type=Path),
+              help="Path to .trailpack file")
+@click.option("-k", default=5, help="Number of chunks to retrieve")
+@click.option("--backend", default="print",
+              type=click.Choice(["print", "anthropic", "mlx", "llama-cpp"]),
+              help="LLM backend: 'print' shows the prompt without an LLM call")
+@click.option("--model", default=None, help="Model id/path for the chosen backend")
+@click.option("--temperature", default=0.3, type=float)
+@click.option("--max-tokens", default=512, type=int)
+def rag(
+    query_text: str,
+    pack: Path,
+    k: int,
+    backend: str,
+    model: str | None,
+    temperature: float,
+    max_tokens: int,
+) -> None:
+    """End-to-end RAG: retrieve + safety route + prompt build + (optional) LLM answer."""
+    backend_kwargs: dict[str, str] = {}
+    if model:
+        if backend == "anthropic":
+            backend_kwargs["model"] = model
+        elif backend == "mlx":
+            backend_kwargs["model_id"] = model
+        elif backend == "llama-cpp":
+            backend_kwargs["model_path"] = model
+
+    try:
+        be = make_backend(backend, **backend_kwargs)
+    except Exception as e:
+        console.print(f"[red]Failed to initialize {backend} backend: {e}[/red]")
+        raise SystemExit(2)
+
+    console.print(Panel(f"[bold]Query:[/bold] {query_text}", title="RAG"))
+
+    streamed_chunks: list[str] = []
+
+    def on_token(tok: str) -> None:
+        streamed_chunks.append(tok)
+        console.out(tok, end="", highlight=False)
+
+    result = rag_answer(
+        query=query_text,
+        pack_path=pack,
+        backend=be,
+        k=k,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        on_token=on_token if backend != "print" else None,
+    )
+
+    console.print()  # newline after stream
+
+    # Summary panel
+    risk_color = {"low": "green", "medium": "yellow", "high": "red",
+                  "critical": "bold red"}.get(result.risk, "white")
+    summary = Table(show_header=False, box=None, pad_edge=False)
+    summary.add_row("[bold]intent[/bold]", result.intent)
+    summary.add_row("[bold]risk[/bold]", f"[{risk_color}]{result.risk}[/{risk_color}]")
+    summary.add_row("[bold]mode[/bold]", result.answer_mode)
+    summary.add_row("[bold]backend[/bold]", result.backend)
+    summary.add_row("[bold]chunks[/bold]", str(len(result.retrieved_chunks)))
+    summary.add_row("[bold]citations valid[/bold]",
+                    ", ".join(result.citations_valid) or "(none)")
+    if result.citations_invalid_stripped:
+        summary.add_row("[bold red]citations stripped[/bold red]",
+                        ", ".join(result.citations_invalid_stripped))
+    console.print(Panel(summary, title="Result", border_style=risk_color))
+
+    # For print backend, the streamed output WAS the result. Otherwise show the
+    # post-validation answer (may differ from streamed if citations were stripped).
+    if backend != "print":
+        console.print(Panel(result.answer, title="Final answer (post-validation)"))
 
 
 if __name__ == "__main__":

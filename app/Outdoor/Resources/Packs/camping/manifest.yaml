@@ -1,0 +1,37 @@
+id: camping
+version: 0.1.0
+display_name: Camping Essentials
+description: "Generic outdoor and camping knowledge \u2014 first aid, knots, water\
+  \ purification, shelter, fire, navigation, wildlife encounters, plant awareness,\
+  \ weather safety, food storage, gear repairs, and trip basics. Conservative, cited,\
+  \ draft content for v1 \u2014 SME review pending.\n"
+app_min_version: 0.1.0
+locale: en-US
+status: draft
+model:
+  family: llama-3.2-3b-instruct
+  quantization: q4
+  ref: shared
+embeddings:
+  model: all-MiniLM-L6-v2
+  dim: 384
+content_domains:
+- first-aid
+- knots
+- water
+- shelter
+- fire
+- navigation
+- wildlife
+- plants
+- weather
+- food
+- gear-fixes
+- trip-basics
+chunk_count: 357
+source_count: 68
+created_at: '2026-05-17T00:16:50+00:00'
+hashes:
+  pack.sqlite: df1bbe66ef2a7a284b5f29e4d252c04a1845f1a611f6e5cf59fe0fb16416f5f7
+  vectors.sqlite: 8bdbb4ec87773ac9b18d699beccb749fdf718048e3e9940c4f38fd46d24a3b30
+  safety_rules.yaml: fe39aa0cd7afe7e39a31396eabffbf2ffadd83294f904c6acb347407976968f2

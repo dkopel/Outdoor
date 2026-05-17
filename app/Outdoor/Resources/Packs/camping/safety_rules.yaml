@@ -1,0 +1,133 @@
+- intent: medication_dosage
+  match:
+  - what dose
+  - dosage
+  - how much should i take
+  - how many milligrams
+  - how many mg
+  - ibuprofen
+  - tylenol
+  - acetaminophen
+  - aspirin
+  - naproxen
+  - advil
+  - benadryl
+  - diphenhydramine
+  - epinephrine dose
+  - how much of the
+  - should i take
+  - how often can i take
+  risk: critical
+  answer_mode: refuse_with_warning
+  must_include:
+  - This app cannot recommend medication doses. Follow the label or a clinician's
+    instructions.
+  - Call emergency services (or activate a PLB/satellite SOS) if symptoms are serious.
+- intent: plant_id_edibility
+  match:
+  - safe to eat
+  - can i eat
+  - is this edible
+  - edible mushroom
+  - identify mushroom
+  - edible berry
+  - foraging
+  refuse_patterns:
+  - (safe to eat|can i eat|is this edible)
+  risk: critical
+  answer_mode: refuse_with_warning
+  must_include:
+  - Never eat plants, fungi, or berries identified only through this app. Misidentification
+    can be fatal.
+  - Consult a region-specific field guide and a qualified forager in person.
+- intent: animal_id_edibility
+  match:
+  - eat this fish
+  - eat this animal
+  - safe to eat the meat
+  refuse_patterns:
+  - (safe to eat|can i eat)
+  risk: critical
+  answer_mode: refuse_with_warning
+  must_include:
+  - This app does not guide on consuming wild-caught animals.
+- intent: cpr_resuscitation
+  match:
+  - cpr
+  - resuscitation
+  - not breathing
+  - no pulse
+  - cardiac arrest
+  risk: high
+  answer_mode: locked_procedure
+  must_include:
+  - If anyone nearby has a signal or PLB, get emergency help started immediately.
+  - "CPR effectiveness drops without formal training \u2014 this is a reference, not\
+    \ a substitute."
+- intent: first_aid
+  match:
+  - bleeding
+  - wound
+  - burn
+  - blister
+  - hypothermia
+  - frostbite
+  - heat stroke
+  - heat exhaustion
+  - dehydration
+  - snake bite
+  - tick bite
+  - fracture
+  - broken bone
+  - sprain
+  - allergic reaction
+  - anaphylaxis
+  - head injury
+  - concussion
+  risk: high
+  answer_mode: locked_procedure
+  must_include:
+  - Seek emergency help (call 911 or activate a PLB/satellite SOS) if available.
+  - This guidance is not a substitute for trained medical care.
+- intent: animal_encounter
+  match:
+  - bear
+  - grizzly
+  - black bear
+  - mountain lion
+  - cougar
+  - moose
+  - wolf
+  - snake
+  - rattlesnake
+  - scare away
+  risk: medium
+  answer_mode: rag_with_safety_appendix
+  must_include:
+  - "Behavior differs by species and region \u2014 verify with local wildlife authority\
+    \ where possible."
+  - Never run from a predator. Carry bear spray in bear country and know how to use
+    it.
+- intent: lightning_storm
+  match:
+  - lightning
+  - thunderstorm
+  - thunder
+  - struck by lightning
+  risk: medium
+  answer_mode: rag_with_safety_appendix
+  must_include:
+  - If you can hear thunder, lightning is within strike range. Seek shelter or assume
+    lightning position.
+- intent: lost_or_rescue
+  match:
+  - lost
+  - rescue
+  - stranded
+  - signal for help
+  - find my way
+  risk: medium
+  answer_mode: rag_with_safety_appendix
+  must_include:
+  - If you have a PLB or satellite messenger, activate it. Don't keep moving if rescuers
+    are likely searching where you were last known.

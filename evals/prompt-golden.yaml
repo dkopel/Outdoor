@@ -1,0 +1,353 @@
+# Prompt-golden eval set — 50 questions covering all 12 domains.
+#
+# Used as Phase 3 regression for the LLM answer quality. Each entry has:
+#   query                    : the user's input
+#   expected_domains         : list of domains that should appear in retrieved chunks
+#   must_include_phrases     : phrases that should appear in the LLM's answer (substring match, case-insensitive)
+#   must_not_include_phrases : phrases that must NOT appear (hallucination tripwires)
+#   min_citations            : minimum number of valid [chunk_id] citations in the answer
+#   notes                    : grading notes for manual review
+#
+# Grading: an answer "passes" if every must_include phrase appears, no must_not_include
+# phrase appears, and at least min_citations valid citations are present. Otherwise fail.
+#
+# Target: 90%+ pass rate. See docs/prompt-spec.md for the full spec.
+
+# ==================== FIRST AID ====================
+- query: "how do I treat a serious cut that won't stop bleeding"
+  expected_domains: [first-aid]
+  must_include_phrases: ["pressure", "seek"]
+  must_not_include_phrases: ["mg", "milligrams", "tourniquet first"]
+  min_citations: 1
+
+- query: "what are the signs of hypothermia"
+  expected_domains: [first-aid]
+  must_include_phrases: ["shiver"]
+  must_not_include_phrases: ["mg", "dose"]
+  min_citations: 1
+
+- query: "my partner has heat stroke what do I do"
+  expected_domains: [first-aid]
+  must_include_phrases: ["cool", "911"]
+  must_not_include_phrases: ["fine to wait"]
+  min_citations: 1
+
+- query: "how do I treat a burn in the backcountry"
+  expected_domains: [first-aid]
+  must_include_phrases: ["cool water", "cover"]
+  must_not_include_phrases: ["butter", "ice directly"]
+  min_citations: 1
+
+- query: "i was bitten by a rattlesnake what should i do"
+  expected_domains: [first-aid, wildlife]
+  must_include_phrases: ["calm", "do not"]
+  must_not_include_phrases: ["suck", "tourniquet", "cut"]
+  min_citations: 1
+  notes: "Must NOT recommend sucking, cutting, or tourniquet."
+
+- query: "how do I remove a tick"
+  expected_domains: [first-aid]
+  must_include_phrases: ["tweezers", "skin"]
+  must_not_include_phrases: ["vaseline", "burning", "match", "twist"]
+  min_citations: 1
+
+- query: "i hit my head and feel dizzy"
+  expected_domains: [first-aid]
+  must_include_phrases: ["concussion", "rest"]
+  must_not_include_phrases: ["ibuprofen", "aspirin"]
+  min_citations: 1
+  notes: "Should warn against NSAIDs (bleeding risk)."
+
+- query: "i have a blister on my heel"
+  expected_domains: [first-aid]
+  must_include_phrases: ["clean", "cover"]
+  must_not_include_phrases: ["amputate"]
+  min_citations: 1
+
+- query: "my fingers are numb and white from cold"
+  expected_domains: [first-aid, weather]
+  must_include_phrases: ["frostbite", "warm"]
+  must_not_include_phrases: ["rub vigorously"]
+  min_citations: 1
+
+- query: "what's the right way to do CPR"
+  expected_domains: [first-aid]
+  must_include_phrases: ["911", "compressions"]
+  must_not_include_phrases: ["fine to skip"]
+  min_citations: 1
+
+# ==================== KNOTS ====================
+- query: "how do I tie a bowline"
+  expected_domains: [knots]
+  must_include_phrases: ["loop", "around"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "what knot do I use to join two ropes of different size"
+  expected_domains: [knots]
+  must_include_phrases: ["sheet bend"]
+  must_not_include_phrases: ["square knot"]
+  min_citations: 1
+  notes: "Square knot is wrong for unequal diameters."
+
+- query: "how do I tighten a guy line on my tent"
+  expected_domains: [knots]
+  must_include_phrases: ["taut", "line"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "how do I attach a rope to a tree"
+  expected_domains: [knots]
+  must_include_phrases: ["hitch"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "what's a figure eight knot for"
+  expected_domains: [knots]
+  must_include_phrases: ["stopper"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+# ==================== WATER ====================
+- query: "how do I purify water from a creek"
+  expected_domains: [water]
+  must_include_phrases: ["boil"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "is alpine lake water safe to drink"
+  expected_domains: [water]
+  must_include_phrases: ["treat"]
+  must_not_include_phrases: ["safe without treatment"]
+  min_citations: 1
+
+- query: "how much water should i drink a day hiking"
+  expected_domains: [water]
+  must_include_phrases: ["depend", "thirst"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "how do i find water if i'm lost"
+  expected_domains: [water]
+  must_include_phrases: ["downhill", "treat"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+# ==================== SHELTER ====================
+- query: "how do I pitch a tent in heavy wind"
+  expected_domains: [shelter]
+  must_include_phrases: ["stake", "wind"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "how do i make an emergency shelter with a tarp"
+  expected_domains: [shelter]
+  must_include_phrases: ["ridge"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "where should I NOT camp"
+  expected_domains: [shelter]
+  must_include_phrases: ["widow", "drainage"]
+  must_not_include_phrases: []
+  min_citations: 1
+  notes: "Must mention widow-makers OR drainage hazards."
+
+- query: "how to build a debris hut"
+  expected_domains: [shelter]
+  must_include_phrases: ["leaves", "ground"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+# ==================== FIRE ====================
+- query: "how do I start a fire in the rain"
+  expected_domains: [fire]
+  must_include_phrases: ["dry", "tinder"]
+  must_not_include_phrases: ["gasoline"]
+  min_citations: 1
+
+- query: "what's the best way to build a fire"
+  expected_domains: [fire]
+  must_include_phrases: ["tinder", "kindling"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "how do i put a campfire out properly"
+  expected_domains: [fire]
+  must_include_phrases: ["water", "cold"]
+  must_not_include_phrases: ["dirt only"]
+  min_citations: 1
+
+- query: "what wood should i use for a fire"
+  expected_domains: [fire]
+  must_include_phrases: ["dead", "down"]
+  must_not_include_phrases: ["live tree"]
+  min_citations: 1
+
+# ==================== NAVIGATION ====================
+- query: "what is declination on a compass"
+  expected_domains: [navigation]
+  must_include_phrases: ["magnetic", "true"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "how do I take a bearing"
+  expected_domains: [navigation]
+  must_include_phrases: ["compass", "map"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "how do I find north without a compass"
+  expected_domains: [navigation]
+  must_include_phrases: ["sun", "stars"]
+  must_not_include_phrases: ["moss is reliable"]
+  min_citations: 1
+  notes: "Should NOT claim moss reliably indicates north."
+
+- query: "i'm lost what do i do"
+  expected_domains: [trip-basics, navigation]
+  must_include_phrases: ["stop", "stay"]
+  must_not_include_phrases: ["keep moving"]
+  min_citations: 1
+  notes: "S.T.O.P. — must include staying put guidance."
+
+- query: "how do i signal a rescue helicopter"
+  expected_domains: [trip-basics, navigation]
+  must_include_phrases: ["three", "whistle"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+# ==================== WILDLIFE ====================
+- query: "what should I do if I see a bear"
+  expected_domains: [wildlife]
+  must_include_phrases: ["do not run", "calm"]
+  must_not_include_phrases: ["climb a tree"]
+  min_citations: 1
+  notes: "Trees are not safe — both species climb."
+
+- query: "do i play dead or fight a black bear"
+  expected_domains: [wildlife]
+  must_include_phrases: ["fight"]
+  must_not_include_phrases: ["play dead"]
+  min_citations: 1
+  notes: "Black bear = fight back. Playing dead is for grizzlies."
+
+- query: "how do i use bear spray"
+  expected_domains: [wildlife]
+  must_include_phrases: ["aim", "face"]
+  must_not_include_phrases: ["spray yourself"]
+  min_citations: 1
+
+- query: "i see a mountain lion stalking me"
+  expected_domains: [wildlife]
+  must_include_phrases: ["large", "fight"]
+  must_not_include_phrases: ["play dead", "run"]
+  min_citations: 1
+
+- query: "what to do if a moose charges"
+  expected_domains: [wildlife]
+  must_include_phrases: ["run", "tree"]
+  must_not_include_phrases: ["play dead first"]
+  min_citations: 1
+  notes: "Unlike bears, RUN from moose."
+
+- query: "how do i hang a bear bag"
+  expected_domains: [wildlife, food]
+  must_include_phrases: ["feet", "branch"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+# ==================== PLANTS ====================
+- query: "what does poison ivy look like"
+  expected_domains: [plants]
+  must_include_phrases: ["three", "leaves"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "what plant burns my skin in sunlight"
+  expected_domains: [plants]
+  must_include_phrases: ["hogweed"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "i touched stinging nettle how to treat"
+  expected_domains: [plants]
+  must_include_phrases: ["wash", "cool"]
+  must_not_include_phrases: ["scratch hard"]
+  min_citations: 1
+
+# ==================== WEATHER ====================
+- query: "lightning is close what should i do"
+  expected_domains: [weather]
+  must_include_phrases: ["shelter"]
+  must_not_include_phrases: ["isolated tree"]
+  min_citations: 1
+
+- query: "how do i dress in cold weather"
+  expected_domains: [weather]
+  must_include_phrases: ["layer"]
+  must_not_include_phrases: ["cotton is fine"]
+  min_citations: 1
+
+- query: "how do i prevent sunburn at altitude"
+  expected_domains: [weather]
+  must_include_phrases: ["sunscreen", "reapply"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "what is the 30-30 rule for lightning"
+  expected_domains: [weather]
+  must_include_phrases: ["thunder", "shelter"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+# ==================== FOOD ====================
+- query: "how far should i cook from my tent in bear country"
+  expected_domains: [food, wildlife]
+  must_include_phrases: ["100", "feet"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "do i need a bear canister"
+  expected_domains: [food, wildlife]
+  must_include_phrases: ["canister"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+# ==================== GEAR FIXES ====================
+- query: "my tent pole broke how do i fix it"
+  expected_domains: [gear-fixes]
+  must_include_phrases: ["splint"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "my boot sole came off"
+  expected_domains: [gear-fixes]
+  must_include_phrases: ["tape"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+# ==================== TRIP BASICS ====================
+- query: "what are the ten essentials"
+  expected_domains: [trip-basics]
+  must_include_phrases: ["navigation", "fire"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "what is leave no trace"
+  expected_domains: [trip-basics]
+  must_include_phrases: ["principles"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "when should i turn back on a hike"
+  expected_domains: [trip-basics]
+  must_include_phrases: ["weather", "turn"]
+  must_not_include_phrases: []
+  min_citations: 1
+
+- query: "who should know my trip plan"
+  expected_domains: [trip-basics]
+  must_include_phrases: ["someone", "return"]
+  must_not_include_phrases: []
+  min_citations: 1

@@ -1,0 +1,410 @@
+{
+  "ee24a6bf4f817013": {
+    "title": "Campfire Construction",
+    "publisher": "general outdoor practice",
+    "url": "",
+    "license": "author"
+  },
+  "6e69b766af0140de": {
+    "title": "Wildfire Prevention \u2014 Campfire Safety",
+    "publisher": "U.S. Forest Service",
+    "url": "https://www.fs.usda.gov/visit/know-before-you-go/campfires",
+    "license": "author"
+  },
+  "c67be1e0224d4a46": {
+    "title": "Minimize Campfire Impacts \u2014 Leave No Trace Principle #5",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm",
+    "license": "public-domain"
+  },
+  "eb75721f26cef0fe": {
+    "title": "Fire-Starting Fundamentals",
+    "publisher": "U.S. Army Field Manual FM 21-76 (Survival)",
+    "url": "https://armypubs.army.mil/",
+    "license": "public-domain"
+  },
+  "eb002055c1ae630b": {
+    "title": "Fire Starting in Wet Conditions",
+    "publisher": "general outdoor practice",
+    "url": "",
+    "license": "author"
+  },
+  "2875b3f3b5c0b9a4": {
+    "title": "Animal and Insect Bite First Aid",
+    "publisher": "U.S. CDC",
+    "url": "https://www.cdc.gov/niosh/topics/outdoor/venomous-snakes.html",
+    "license": "author"
+  },
+  "0582b939858d0643": {
+    "title": "Stop the Bleed \u2014 Bleeding Control Basic",
+    "publisher": "American College of Surgeons (public outreach)",
+    "url": "https://www.stopthebleed.org/",
+    "license": "author"
+  },
+  "31fe52e989f8c654": {
+    "title": "Foot Care and Blister Prevention (general practice)",
+    "publisher": "U.S. National Park Service / outdoor first aid (paraphrased)",
+    "url": "https://www.nps.gov/subjects/hiking/safety.htm",
+    "license": "author"
+  },
+  "71771691d1d4fd9e": {
+    "title": "Burn Triage and Treatment \u2014 Thermal Burns",
+    "publisher": "U.S. CDC (general guidance)",
+    "url": "https://www.cdc.gov/disasters/firstaid.html",
+    "license": "author"
+  },
+  "2169711256ddfd95": {
+    "title": "Hands-Only CPR \u2014 Public Guidance",
+    "publisher": "American Heart Association (public outreach)",
+    "url": "https://cpr.heart.org/",
+    "license": "author"
+  },
+  "c0b45647712bfb63": {
+    "title": "Symptoms of Mild TBI and Concussion",
+    "publisher": "U.S. Centers for Disease Control and Prevention",
+    "url": "https://www.cdc.gov/traumatic-brain-injury/signs-symptoms/index.html",
+    "license": "public-domain"
+  },
+  "8bd3d8295b12c4ce": {
+    "title": "Heat Stress and Heat Illness",
+    "publisher": "U.S. CDC / NIOSH",
+    "url": "https://www.cdc.gov/disasters/extremeheat/warning.html",
+    "license": "author"
+  },
+  "903436372b17f05b": {
+    "title": "Cold-Related Illnesses in the Wilderness",
+    "publisher": "U.S. CDC (general guidance)",
+    "url": "https://www.cdc.gov/disasters/winter/staysafe/hypothermia.html",
+    "license": "author"
+  },
+  "97a00628d49d81c4": {
+    "title": "Wilderness Musculoskeletal Injury \u2014 Field Care",
+    "publisher": "general first-aid practice",
+    "url": "",
+    "license": "author"
+  },
+  "e5e28a321c8b143a": {
+    "title": "Tick Removal \u2014 What to Do After a Tick Bite",
+    "publisher": "U.S. Centers for Disease Control and Prevention",
+    "url": "https://www.cdc.gov/ticks/after-a-tick-bite/index.html",
+    "license": "public-domain"
+  },
+  "318bdb6712eed4af": {
+    "title": "Wound Care in the Backcountry",
+    "publisher": "general first-aid practice",
+    "url": "",
+    "license": "author"
+  },
+  "d4132308e4da0a21": {
+    "title": "Food Storage in Bear Country",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/articles/food-storage-bear-country.htm",
+    "license": "author"
+  },
+  "8ede3a69ae1a8de3": {
+    "title": "Backcountry Nutrition",
+    "publisher": "general outdoor practice",
+    "url": "",
+    "license": "author"
+  },
+  "3da70ae37b69aa98": {
+    "title": "Food and Kitchen Practices in Bear Country",
+    "publisher": "U.S. National Park Service / U.S. Forest Service",
+    "url": "https://www.nps.gov/subjects/bears/safety.htm",
+    "license": "public-domain"
+  },
+  "87714b70201be44a": {
+    "title": "Foraging and Wild Foods \u2014 Safety Guidance",
+    "publisher": "U.S. Centers for Disease Control and Prevention / U.S. National Park Service",
+    "url": "https://www.cdc.gov/poisoning/",
+    "license": "public-domain"
+  },
+  "d45d6dc3d8cbc436": {
+    "title": "Backcountry Field Repair",
+    "publisher": "general outdoor practice",
+    "url": "",
+    "license": "author"
+  },
+  "3b70463471c6d8b4": {
+    "title": "Backcountry Repair Kit Recommendations (general practice)",
+    "publisher": "U.S. National Park Service (general guidance)",
+    "url": "https://www.nps.gov/subjects/hiking/safety.htm",
+    "license": "author"
+  },
+  "c5738d55485c4a9a": {
+    "title": "The Ashley Book of Knots \u2014 Bowline references",
+    "publisher": "general knot reference",
+    "url": "",
+    "license": "author"
+  },
+  "cc744efa07a8d4e7": {
+    "title": "Clove Hitch \u2014 general knot reference",
+    "publisher": "general knot reference",
+    "url": "",
+    "license": "author"
+  },
+  "6140fe3f2db98f2c": {
+    "title": "Figure-Eight \u2014 general knot reference",
+    "publisher": "general knot reference",
+    "url": "",
+    "license": "author"
+  },
+  "3bfbe835fe803ae1": {
+    "title": "Friction Hitches \u2014 Field Reference",
+    "publisher": "U.S. Army Field Manual FM 5-125 (Rigging)",
+    "url": "https://armypubs.army.mil/",
+    "license": "public-domain"
+  },
+  "e1eef8cb2e8698d2": {
+    "title": "Knots and Lashings \u2014 Field Reference",
+    "publisher": "U.S. Army Field Manual FM 5-125 (Rigging)",
+    "url": "https://armypubs.army.mil/",
+    "license": "public-domain"
+  },
+  "5d22bd40ae7498ab": {
+    "title": "Taut-line Hitch \u2014 general knot reference",
+    "publisher": "general knot reference",
+    "url": "",
+    "license": "author"
+  },
+  "809d9db2f95caf5c": {
+    "title": "Trucker's Hitch \u2014 general knot reference",
+    "publisher": "general knot reference",
+    "url": "",
+    "license": "author"
+  },
+  "ced235787030f3b7": {
+    "title": "Basic Hitches and Bends \u2014 general knot reference",
+    "publisher": "general knot reference",
+    "url": "",
+    "license": "author"
+  },
+  "b2f487c1921fd085": {
+    "title": "If You Become Lost",
+    "publisher": "general wilderness practice",
+    "url": "",
+    "license": "author"
+  },
+  "9fd60dfb3ee7f915": {
+    "title": "Map and Compass Fundamentals",
+    "publisher": "general wilderness navigation",
+    "url": "",
+    "license": "author"
+  },
+  "4264d5eba4a19a70": {
+    "title": "Natural Navigation",
+    "publisher": "general wilderness practice",
+    "url": "",
+    "license": "author"
+  },
+  "807d109d3cb54051": {
+    "title": "Toxic and Hazardous Plants \u2014 Regional Profiles",
+    "publisher": "USDA PLANTS Database / U.S. National Park Service",
+    "url": "https://plants.usda.gov/",
+    "license": "public-domain"
+  },
+  "f5875c53f2bc416a": {
+    "title": "Wild Edible Plant Safety",
+    "publisher": "general wilderness practice",
+    "url": "",
+    "license": "author"
+  },
+  "7d5566b560754da0": {
+    "title": "Poisonous Plants Outdoors",
+    "publisher": "U.S. CDC / NIOSH",
+    "url": "https://www.cdc.gov/niosh/topics/plants/index.html",
+    "license": "author"
+  },
+  "a7644a346f9eb7a3": {
+    "title": "Stinging Nettle (Urtica dioica) \u2014 Plant Profile",
+    "publisher": "USDA PLANTS Database / USFS Fire Effects Information System (FEIS)",
+    "url": "https://plants.usda.gov/plant-profile/URDI",
+    "license": "public-domain"
+  },
+  "ad23b56aa5da47d9": {
+    "title": "Emergency Shelter Construction",
+    "publisher": "general wilderness practice",
+    "url": "",
+    "license": "author"
+  },
+  "23ebe2b8e8aed556": {
+    "title": "Backcountry Campsite Selection",
+    "publisher": "U.S. National Park Service / U.S. Forest Service",
+    "url": "https://www.nps.gov/subjects/camping/index.htm",
+    "license": "public-domain"
+  },
+  "da235e63cbcc5b15": {
+    "title": "Tarp Shelter Configurations",
+    "publisher": "general outdoor practice",
+    "url": "",
+    "license": "author"
+  },
+  "73cbc75f27e48c53": {
+    "title": "Tent Pitching Fundamentals",
+    "publisher": "general outdoor practice",
+    "url": "",
+    "license": "author"
+  },
+  "687c7f4d45f5c545": {
+    "title": "What To Do If You're Lost \u2014 Wilderness Search & Rescue",
+    "publisher": "U.S. National Park Service / U.S. Forest Service",
+    "url": "https://www.nps.gov/subjects/hiking/safety.htm",
+    "license": "public-domain"
+  },
+  "8c5f1233382ad921": {
+    "title": "Leave No Trace Seven Principles",
+    "publisher": "Leave No Trace Center for Outdoor Ethics (public outreach)",
+    "url": "https://lnt.org/why/7-principles/",
+    "license": "author"
+  },
+  "ebc14795f291085e": {
+    "title": "The Ten Essentials",
+    "publisher": "general outdoor / Mountaineers tradition",
+    "url": "",
+    "license": "author"
+  },
+  "64bc7275e190f548": {
+    "title": "Plan Ahead and Prepare \u2014 Trip Planning",
+    "publisher": "U.S. National Park Service / U.S. Forest Service",
+    "url": "https://www.nps.gov/subjects/hiking/safety.htm",
+    "license": "public-domain"
+  },
+  "283f653d3d77fdbd": {
+    "title": "Backcountry Trip Safety and Decision-Making",
+    "publisher": "U.S. National Park Service / U.S. Forest Service (general practice)",
+    "url": "https://www.nps.gov/subjects/hiking/safety.htm",
+    "license": "author"
+  },
+  "d25afb56117d1d41": {
+    "title": "Hydration in the Backcountry",
+    "publisher": "general wilderness medicine practice",
+    "url": "",
+    "license": "author"
+  },
+  "5c9ca5aeff0e2fbc": {
+    "title": "Finding Water in the Wilderness",
+    "publisher": "general wilderness practice",
+    "url": "",
+    "license": "author"
+  },
+  "b449b17593a2aa06": {
+    "title": "Making Water Safe in an Emergency",
+    "publisher": "U.S. CDC",
+    "url": "https://www.cdc.gov/healthywater/emergency/drinking/making-water-safe.html",
+    "license": "author"
+  },
+  "4f4f567e68e43c90": {
+    "title": "Drinking Water in Emergencies",
+    "publisher": "U.S. Centers for Disease Control and Prevention",
+    "url": "https://www.cdc.gov/healthywater/emergency/drinking/index.html",
+    "license": "public-domain"
+  },
+  "3eeeda6ff9cc058e": {
+    "title": "Cold Weather Preparedness \u2014 Layering Principles",
+    "publisher": "U.S. National Park Service / U.S. CDC (Winter Weather Safety)",
+    "url": "https://www.cdc.gov/disasters/winter/index.html",
+    "license": "public-domain"
+  },
+  "7048ad274c8a6695": {
+    "title": "Lightning Safety",
+    "publisher": "U.S. National Weather Service / NOAA",
+    "url": "https://www.weather.gov/safety/lightning",
+    "license": "author"
+  },
+  "4ca3b618a7c93ba1": {
+    "title": "Backcountry Weather Awareness",
+    "publisher": "general outdoor practice",
+    "url": "",
+    "license": "author"
+  },
+  "dfd25bf8b6f83d62": {
+    "title": "Sun Safety",
+    "publisher": "U.S. Centers for Disease Control and Prevention",
+    "url": "https://www.cdc.gov/skin-cancer/sun-safety/index.html",
+    "license": "public-domain"
+  },
+  "4c97211621e1f65d": {
+    "title": "Winter Weather Hazards",
+    "publisher": "U.S. National Weather Service / NOAA",
+    "url": "https://www.weather.gov/safety/winter",
+    "license": "public-domain"
+  },
+  "abc81ecd3f6e7ab0": {
+    "title": "Wind Chill Chart and Frostbite Times",
+    "publisher": "U.S. National Weather Service (NOAA)",
+    "url": "https://www.weather.gov/safety/cold-wind-chill-chart",
+    "license": "public-domain"
+  },
+  "f6abe803d7c1baee": {
+    "title": "Staying Safe Around Bears \u2014 Bear Attack Response",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/subjects/bears/safety.htm",
+    "license": "public-domain"
+  },
+  "1680ff6943d50ba8": {
+    "title": "Staying Safe Around Bears",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/subjects/bears/safety.htm",
+    "license": "public-domain"
+  },
+  "31d289a77246e84b": {
+    "title": "Bear Pepper Spray \u2014 NPS Bear Safety",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/subjects/bears/safety.htm",
+    "license": "public-domain"
+  },
+  "c88daab300eef3fb": {
+    "title": "Bear Safety in National Parks",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/articles/bear-safety.htm",
+    "license": "author"
+  },
+  "90be91d3e48c337e": {
+    "title": "Bear Identification \u2014 NPS Bear Safety Resources",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/subjects/bears/safety.htm",
+    "license": "public-domain"
+  },
+  "619b6e41355cb29e": {
+    "title": "Bear-Resistant Food Storage Guidelines",
+    "publisher": "U.S. National Park Service / U.S. Forest Service",
+    "url": "https://www.nps.gov/subjects/bears/safety.htm",
+    "license": "public-domain"
+  },
+  "55a8caed5a9e9fd6": {
+    "title": "Wildlife Safety in National Parks",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/yell/learn/nature/safety.htm",
+    "license": "author"
+  },
+  "2a171a4da9b39519": {
+    "title": "Moose Safety",
+    "publisher": "U.S. National Park Service \u2014 Wrangell-St Elias National Park",
+    "url": "https://www.nps.gov/wrst/planyourvisit/moose-safety.htm",
+    "license": "public-domain"
+  },
+  "2b2ab2af915c6ea8": {
+    "title": "Mountain Lion Safety",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/articles/mountain-lion-safety.htm",
+    "license": "public-domain"
+  },
+  "694e94b3e9f33f53": {
+    "title": "Wildlife in Campgrounds",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/subjects/bears/safety.htm",
+    "license": "public-domain"
+  },
+  "558dbe44eecb1c79": {
+    "title": "Venomous Snakes",
+    "publisher": "U.S. CDC / NIOSH",
+    "url": "https://www.cdc.gov/niosh/topics/outdoor/venomous-snakes.html",
+    "license": "author"
+  },
+  "d428501b39e47d40": {
+    "title": "Venomous Snakes",
+    "publisher": "U.S. Centers for Disease Control and Prevention (NIOSH)",
+    "url": "https://www.cdc.gov/niosh/outdoor-workers/about/venomous-snakes.html",
+    "license": "public-domain"
+  }
+}
