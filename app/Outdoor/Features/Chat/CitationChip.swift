@@ -11,8 +11,8 @@ struct CitationChip: View {
             showDetail = true
         } label: {
             HStack(spacing: 6) {
-                DomainIcon(domain: chunk.chunk.domain, size: 18)
-                Text(chunk.chunk.citationLabel)
+                DomainIcon(domain: chunk.domain, size: 18)
+                Text(chunk.citationLabel)
                     .font(OType.labelS)
                     .lineLimit(1)
                 Image(systemName: "chevron.up.right")
@@ -29,13 +29,13 @@ struct CitationChip: View {
         }
         .buttonStyle(.plain)
         .sheet(isPresented: $showDetail) {
-            CitationDetailView(chunk: chunk.chunk)
+            CitationDetailView(chunk: chunk)
         }
     }
 }
 
 struct CitationDetailView: View {
-    let chunk: Chunk
+    let chunk: RetrievedChunk
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -54,7 +54,7 @@ struct CitationDetailView: View {
                         }
                     }
 
-                    if chunk.hazardLevel != "low" {
+                    if chunk.hazardLevel != .low {
                         HazardBadge(level: chunk.hazardLevel)
                     }
 
@@ -77,9 +77,10 @@ struct CitationDetailView: View {
                                     .foregroundStyle(OColor.textSecondary)
                             }
                             HStack(spacing: OSpace.xs) {
-                                OPill(icon: "doc.text", text: chunk.sourceLicense.isEmpty ? "—" : chunk.sourceLicense,
+                                OPill(icon: "doc.text",
+                                      text: chunk.sourceLicense.isEmpty ? "—" : chunk.sourceLicense,
                                       tint: OColor.spruce)
-                                OPill(icon: "tag.fill", text: chunk.id, tint: OColor.textSecondary)
+                                OPill(icon: "tag.fill", text: chunk.chunkId, tint: OColor.textSecondary)
                             }
                             .padding(.top, 4)
                         }

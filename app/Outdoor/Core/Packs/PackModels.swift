@@ -1,82 +1,81 @@
 import Foundation
 
-/// A retrieved content chunk — the unit of knowledge returned by the retriever.
-struct Chunk: Identifiable, Hashable {
-    let id: String              // chunk_id (e.g., "first-aid.bleeding-control#1")
-    let sectionTitle: String
-    let text: String
-    let domain: String
-    let topic: String?
-    let hazardLevel: String     // "low" | "medium" | "high" | "critical"
-    let tags: [String]
-    let sourceTitle: String
-    let sourcePublisher: String
-    let sourceURL: String?
-    let sourceLicense: String
+/// Hazard level — typed enum per the retrieval contract
+/// (`docs/retrieval-llm-contract.md`).
+public enum HazardLevel: String, Sendable, Codable, Hashable, CaseIterable {
+    case low, medium, high, critical
+
+    /// Tolerant decoder for the strings the pack-builder emits ("high",
+    /// "Critical", "  low  ", etc.). Anything unrecognized falls back to `.low`.
+    public init(raw: String) {
+        let key = raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        self = HazardLevel(rawValue: key) ?? .low
+    }
+}
+
+/// A retrieved content chunk — the unit of knowledge returned by the Retriever.
+///
+/// Flat-fields shape per `docs/retrieval-llm-contract.md`: the iOS app, Python
+/// CLI, and Phase 3 PromptBuilder all consume this exact structure.
+public struct RetrievedChunk: Identifiable, Hashable, Sendable {
+    public let chunkId: String            // e.g. "first-aid.bleeding-control#1"
+    public let sectionTitle: String
+    public let text: String
+    public let domain: String
+    public let topic: String?             // not in the contract but useful for browse UI
+    public let hazardLevel: HazardLevel
+    public let tags: [String]
+    public let sourceTitle: String
+    public let sourcePublisher: String
+    public let sourceURL: String          // may be empty per contract
+    public let sourceLicense: String      // useful in the citation sheet
+    public let scoreKeyword: Double       // 0..1 normalized BM25
+    public let scoreVector: Double        // 0..1 normalized cosine (0.0 in v1, no vector index yet)
+    public let scoreHybrid: Double        // weighted combo, used for ranking
+
+    public var id: String { chunkId }
 
     /// Best-effort short citation label for the chip UI.
-    var citationLabel: String {
+    public var citationLabel: String {
         if !sourcePublisher.isEmpty { return sourcePublisher }
         if !sourceTitle.isEmpty { return sourceTitle }
         return "Source"
     }
 }
 
-/// A search result with score metadata.
-struct RetrievedChunk: Identifiable, Hashable {
-    let chunk: Chunk
-    let score: Double
-
-    var id: String { chunk.id }
-}
-
 /// Pack metadata loaded from manifest.yaml.
-struct PackManifest: Hashable {
-    let id: String
-    let version: String
-    let displayName: String
-    let description: String
-    let domains: [String]
-    let chunkCount: Int
-    let sourceCount: Int
-    let createdAt: String?
+public struct PackManifest: Hashable, Sendable {
+    public let id: String
+    public let version: String
+    public let displayName: String
+    public let description: String
+    public let domains: [String]
+    public let chunkCount: Int
+    public let sourceCount: Int
+    public let createdAt: String?
 
     /// Display tagline pulled from manifest description.
-    var tagline: String {
-        let trimmed = description
+    public var tagline: String {
+        description
             .replacingOccurrences(of: "\n", with: " ")
             .trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed
     }
 }
 
 /// A pack installed on device — manifest + filesystem location.
-struct InstalledPack: Identifiable, Hashable {
-    let manifest: PackManifest
-    let rootURL: URL                // dir containing pack.sqlite, etc.
-    let packDatabaseURL: URL        // pack.sqlite
+public struct InstalledPack: Identifiable, Hashable, Sendable {
+    public let manifest: PackManifest
+    public let rootURL: URL
+    public let packDatabaseURL: URL
 
-    var id: String { manifest.id }
-}
-
-/// Listing entry for the catalog — installed or available.
-enum PackListing: Identifiable, Hashable {
-    case installed(InstalledPack)
-    case available(comingSoon: PackPreview)
-
-    var id: String {
-        switch self {
-        case .installed(let p): return "installed:\(p.id)"
-        case .available(let p): return "available:\(p.id)"
-        }
-    }
+    public var id: String { manifest.id }
 }
 
 /// A pack that isn't yet available — used to tease future content.
-struct PackPreview: Hashable {
-    let id: String
-    let displayName: String
-    let description: String
-    let symbol: String
-    let tint: String      // hex string for tint, optional
+public struct PackPreview: Hashable, Sendable {
+    public let id: String
+    public let displayName: String
+    public let description: String
+    public let symbol: String
+    public let tint: String      // hex string for tint
 }

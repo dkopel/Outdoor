@@ -1,6 +1,23 @@
 import Foundation
 import SwiftUI
 
+/// Owns the chat conversation, the active pack, and the LLM streaming task.
+///
+/// Pipeline on `send(...)`:
+///   1. Retriever runs (FTS + safety routing) — synchronous, sub-ms.
+///   2. Route on the resulting `RouteDecision`:
+///       - `refuse_with_warning`     → fixed refusal text, no LLM call.
+///       - `locked_procedure`        → render procedure card from chunks, no LLM call.
+///       - empty / no kept chunks    → "pack doesn't cover this" message, no LLM call.
+///       - `rag_freeform` / `rag_with_safety_appendix`
+///                                   → build prompt, start LLM stream, append a
+///                                     streaming assistant message that mutates
+///                                     as tokens arrive.
+///   3. When the stream finishes, validate citations (strip invented ids) and
+///      flip the answer source from `.streaming` to `.complete(...)`.
+///
+/// The LLM runner is injected so we can swap MLX for a mock in previews / tests
+/// without touching this code.
 @MainActor
 final class ChatViewModel: ObservableObject {
     @Published var messages: [ChatMessage] = []
@@ -8,9 +25,19 @@ final class ChatViewModel: ObservableObject {
     @Published var isThinking: Bool = false
 
     let packManager: PackManager
+    let runner: LLMRunner
 
-    init(packManager: PackManager) {
+    /// The currently-running LLM stream task, if any. Sending a new message
+    /// cancels it so we don't have two streams writing to the message list.
+    private var streamTask: Task<Void, Never>?
+
+    init(packManager: PackManager, runner: LLMRunner = MockLLMRunner()) {
         self.packManager = packManager
+        self.runner = runner
+    }
+
+    deinit {
+        streamTask?.cancel()
     }
 
     var canSend: Bool {
@@ -22,14 +49,17 @@ final class ChatViewModel: ObservableObject {
         guard !text.isEmpty else { return }
         input = ""
 
-        let userMsg = ChatMessage.user(text)
-        messages.append(userMsg)
+        // Cancel any in-flight stream from the previous turn.
+        streamTask?.cancel()
+        streamTask = nil
 
+        messages.append(ChatMessage.user(text))
+
+        // No pack → friendly nudge, skip retrieval and LLM entirely.
         guard let db = packManager.activeDatabase else {
-            let decision = RouteDecision.general
             messages.append(ChatMessage(
                 role: .assistant,
-                kind: .emptyResult(decision: decision),
+                kind: .emptyResult(decision: .general),
                 text: "No pack is installed. Open the Packs tab and install the Camping pack to get started.",
                 timestamp: .now
             ))
@@ -37,71 +67,191 @@ final class ChatViewModel: ObservableObject {
         }
 
         isThinking = true
-        let retriever = Retriever(database: db, safetyRules: packManager.activeSafetyRules)
-        let result = retriever.search(text, limit: 5)
-        let assistant: ChatMessage = {
-            if result.decision.isRefusal {
-                return ChatMessage(
-                    role: .assistant,
-                    kind: .refusal(decision: result.decision),
-                    text: refusalCopy(for: result.decision),
-                    timestamp: .now
-                )
-            }
-            if result.chunks.isEmpty {
-                return ChatMessage(
-                    role: .assistant,
-                    kind: .emptyResult(decision: result.decision),
-                    text: emptyCopy(for: text),
-                    timestamp: .now
-                )
-            }
-            return ChatMessage(
+        let service = RetrievalService(
+            retriever: FTS5Retriever(database: db),
+            safetyRules: packManager.activeSafetyRules
+        )
+        Task { @MainActor [weak self] in
+            let result = await service.answer(text, k: PromptBuilder.defaultK)
+            self?.continueAfterRetrieval(query: text, result: result)
+        }
+    }
+
+    /// Continues the `send` pipeline after the async retrieval completes.
+    /// Splitting this out lets `send` stay sync-callable from a button tap
+    /// while retrieval awaits without blocking the UI.
+    private func continueAfterRetrieval(query text: String, result: RetrievalService.Result) {
+        // Apply Phase 3 score filtering on top of Retriever's raw output.
+        let filtered = PromptBuilder.filterByScore(result.chunks)
+
+        // ---- Bypass-LLM branches ----
+
+        if result.decision.isRefusal {
+            isThinking = false
+            messages.append(ChatMessage(
                 role: .assistant,
-                kind: .assistantAnswer(chunks: result.chunks, decision: result.decision),
-                text: answerCopy(for: result.decision),
-                timestamp: .now
+                kind: .refusal(decision: result.decision),
+                text: PromptBuilder.refusalText(for: result.decision),
+                timestamp: .now,
+                answerSource: .retrievalOnly
+            ))
+            return
+        }
+
+        if filtered.noneKept {
+            isThinking = false
+            messages.append(ChatMessage(
+                role: .assistant,
+                kind: .emptyResult(decision: result.decision),
+                text: PromptBuilder.refusalNoContext,
+                timestamp: .now,
+                answerSource: .retrievalOnly
+            ))
+            return
+        }
+
+        if result.decision.answerMode == "locked_procedure" {
+            isThinking = false
+            messages.append(ChatMessage(
+                role: .assistant,
+                kind: .assistantAnswer(chunks: filtered.kept, decision: result.decision),
+                text: lockedProcedureFraming(for: result.decision),
+                timestamp: .now,
+                answerSource: .lockedProcedure
+            ))
+            return
+        }
+
+        // ---- Normal RAG path: build prompt and stream the LLM ----
+
+        let userMessage = PromptBuilder.buildUserMessage(
+            query: text,
+            chunks: filtered.kept,
+            decision: result.decision,
+            lowConfidence: filtered.allWeak
+        )
+
+        // Append a streaming placeholder message. Its `text` starts empty and
+        // grows as tokens arrive; `answerSource` flips to `.complete(...)`
+        // when the stream ends.
+        let placeholder = ChatMessage(
+            role: .assistant,
+            kind: .assistantAnswer(chunks: filtered.kept, decision: result.decision),
+            text: "",
+            timestamp: .now,
+            answerSource: .streaming
+        )
+        let placeholderIndex = messages.count
+        messages.append(placeholder)
+
+        // Kick off the LLM stream on a background task and pipe tokens into the
+        // placeholder message back on the main actor.
+        let retrievedIds = filtered.kept.map { $0.chunkId }
+        let runner = self.runner
+
+        streamTask = Task { [weak self] in
+            var accumulated = ""
+            do {
+                let stream = runner.stream(
+                    systemPrompt: SystemPrompt.text,
+                    userMessage: userMessage,
+                    temperature: LLMDefaults.temperature,
+                    maxTokens: LLMDefaults.maxTokens
+                )
+                for try await chunk in stream {
+                    if Task.isCancelled { break }
+                    accumulated += chunk
+                    await self?.appendStreamingChunk(accumulated, at: placeholderIndex)
+                }
+            } catch is CancellationError {
+                // expected when the user sends another message mid-stream
+            } catch {
+                await self?.finishStreamWithError(error, at: placeholderIndex)
+                return
+            }
+
+            if Task.isCancelled { return }
+            await self?.finalizeStream(
+                accumulated: accumulated,
+                retrievedIds: retrievedIds,
+                at: placeholderIndex
             )
-        }()
-        // Tiny delay so the typing indicator gets a frame to render — feels less janky.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) { [weak self] in
-            guard let self else { return }
-            self.messages.append(assistant)
-            self.isThinking = false
         }
     }
 
     func clear() {
+        streamTask?.cancel()
+        streamTask = nil
         messages.removeAll()
+        isThinking = false
+    }
+
+    /// Cancel any in-flight LLM stream. Called when the view disappears or the
+    /// user explicitly aborts.
+    func cancelStreaming() {
+        streamTask?.cancel()
+        streamTask = nil
+        isThinking = false
+    }
+
+    // MARK: - Streaming helpers
+
+    /// Update the placeholder message's body. Runs on the main actor so
+    /// `@Published messages` republishes correctly.
+    private func appendStreamingChunk(_ accumulated: String, at index: Int) {
+        guard messages.indices.contains(index) else { return }
+        messages[index].text = accumulated
+        // Once any text has arrived, drop the "thinking" indicator — the
+        // streaming bubble itself communicates progress now.
+        if isThinking, !accumulated.isEmpty {
+            isThinking = false
+        }
+    }
+
+    /// Stream completed normally. Run citation validation on the full answer,
+    /// strip invented chunk ids, and flip the answer source to `.complete`.
+    private func finalizeStream(
+        accumulated: String,
+        retrievedIds: [String],
+        at index: Int
+    ) {
+        guard messages.indices.contains(index) else { return }
+        let validation = PromptBuilder.validateCitations(
+            in: accumulated,
+            retrievedIds: retrievedIds
+        )
+        var finalText = validation.cleanedAnswer
+        if validation.validCitations.isEmpty && !finalText.isEmpty {
+            // Model produced an answer with no valid citations — flag it.
+            finalText = "⚠️ Answer is not grounded in the pack — verify with a trusted source.\n\n" + finalText
+        } else if finalText.isEmpty {
+            // Stream produced nothing at all — fall back to a polite refusal.
+            finalText = PromptBuilder.refusalLowConfidence
+        }
+        messages[index].text = finalText
+        messages[index].answerSource = .complete(
+            validCitations: validation.validCitations,
+            strippedCitations: validation.strippedCitations
+        )
+        isThinking = false
+        streamTask = nil
+    }
+
+    private func finishStreamWithError(_ error: Error, at index: Int) {
+        guard messages.indices.contains(index) else { return }
+        let msg = "Couldn't reach the on-device model. Showing retrieved excerpts only."
+        messages[index].text = msg
+        messages[index].answerSource = .retrievalOnly
+        isThinking = false
+        streamTask = nil
     }
 
     // MARK: - Copy
 
-    /// Pre-LLM copy: in Phase 3, this becomes the LLM's grounded synthesis.
-    /// For Phase 2 we render the retrieved chunks with a short framing line.
-    private func answerCopy(for decision: RouteDecision) -> String {
-        switch decision.answerMode {
-        case "locked_procedure":
-            return "These are the field steps from your pack. Treat them as a reference — get to professional care as soon as conditions allow."
-        case "rag_with_safety_appendix":
-            return "Here's what your pack says. Read the safety notes carefully — outdoor conditions vary."
-        default:
-            return "Here's what your pack covers."
+    private func lockedProcedureFraming(for decision: RouteDecision) -> String {
+        if !decision.mustInclude.isEmpty {
+            return decision.mustInclude.joined(separator: "\n\n")
         }
-    }
-
-    private func refusalCopy(for decision: RouteDecision) -> String {
-        switch decision.intent {
-        case "plant_id_edibility", "animal_id_edibility":
-            return "I won't identify wild plants, mushrooms, or animals as safe to eat. Misidentification can be fatal — verify with a regional field guide and a qualified person in real life."
-        case "medication_dosage":
-            return "I can't recommend medication doses. Follow the medication label or a clinician's instructions. Call emergency services (or activate a PLB / satellite SOS) if symptoms are serious."
-        default:
-            return "I'm not going to answer that one. Try rephrasing, or browse the Guide tab."
-        }
-    }
-
-    private func emptyCopy(for query: String) -> String {
-        "I don't have anything for that in your Camping pack. Try rephrasing, or check the Guide tab to browse what's here."
+        return "These are the field steps from your pack. Treat them as a reference — get to professional care as soon as conditions allow."
     }
 }

@@ -87,7 +87,7 @@ private struct DomainCard: View {
 struct DomainListView: View {
     let domain: String
     @EnvironmentObject var packManager: PackManager
-    @State private var topics: [Chunk] = []
+    @State private var topics: [RetrievedChunk] = []
 
     var body: some View {
         ScrollView {
@@ -104,13 +104,13 @@ struct DomainListView: View {
         .background(OColor.background.ignoresSafeArea())
         .navigationTitle(domain.domainDisplayName)
         .navigationBarTitleDisplayMode(.large)
-        .navigationDestination(for: Chunk.self) { c in
+        .navigationDestination(for: RetrievedChunk.self) { c in
             ChunkDetailView(chunk: c).environmentObject(packManager)
         }
         .onAppear(perform: load)
     }
 
-    private func topicRow(_ c: Chunk) -> some View {
+    private func topicRow(_ c: RetrievedChunk) -> some View {
         HStack(spacing: OSpace.s) {
             DomainIcon(domain: c.domain, size: 36)
             VStack(alignment: .leading, spacing: 2) {
@@ -123,7 +123,7 @@ struct DomainListView: View {
                     .lineLimit(2)
             }
             Spacer(minLength: 0)
-            if c.hazardLevel == "high" || c.hazardLevel == "critical" {
+            if c.hazardLevel == .high || c.hazardLevel == .critical {
                 HazardBadge(level: c.hazardLevel)
             }
             Image(systemName: "chevron.right")
@@ -147,7 +147,7 @@ struct DomainListView: View {
 }
 
 struct ChunkDetailView: View {
-    let chunk: Chunk
+    let chunk: RetrievedChunk
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: OSpace.l) {
@@ -162,7 +162,7 @@ struct ChunkDetailView: View {
                             .foregroundStyle(OColor.text)
                     }
                 }
-                if chunk.hazardLevel != "low" {
+                if chunk.hazardLevel != .low {
                     HazardBadge(level: chunk.hazardLevel)
                 }
                 Text(chunk.text)

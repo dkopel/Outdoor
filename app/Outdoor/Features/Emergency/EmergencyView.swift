@@ -269,16 +269,15 @@ struct EmergencyProcedureSheet: View {
     }
 
     private func chunkCard(_ rc: RetrievedChunk) -> some View {
-        let c = rc.chunk
-        return VStack(alignment: .leading, spacing: OSpace.xs) {
+        VStack(alignment: .leading, spacing: OSpace.xs) {
             HStack {
-                Text(c.sectionTitle)
+                Text(rc.sectionTitle)
                     .font(OType.h2)
                     .foregroundStyle(OColor.text)
                 Spacer(minLength: 0)
-                HazardBadge(level: c.hazardLevel)
+                HazardBadge(level: rc.hazardLevel)
             }
-            Text(c.text)
+            Text(rc.text)
                 .font(OType.bodyLarge)
                 .foregroundStyle(OColor.text)
                 .fixedSize(horizontal: false, vertical: true)
@@ -296,10 +295,15 @@ struct EmergencyProcedureSheet: View {
 
     private func load() {
         guard let db = packManager.activeDatabase else { return }
-        let retriever = Retriever(database: db, safetyRules: packManager.activeSafetyRules)
-        let result = retriever.search(scenario.query, limit: 4)
-        self.decision = result.decision
-        self.chunks = result.chunks
+        let service = RetrievalService(
+            retriever: FTS5Retriever(database: db),
+            safetyRules: packManager.activeSafetyRules
+        )
+        Task { @MainActor in
+            let result = await service.answer(scenario.query, k: 4)
+            self.decision = result.decision
+            self.chunks = result.chunks
+        }
     }
 }
 

@@ -14,32 +14,24 @@ final class PackDatabase {
     // MARK: - Counts and inventory
 
     func chunkCount() throws -> Int {
-        let rows = try db.query("SELECT COUNT(*) FROM chunks") { stmt in
-            Int(stmt.int(0))
-        }
+        let rows = try db.query("SELECT COUNT(*) FROM chunks") { Int($0.int(0)) }
         return rows.first ?? 0
     }
 
     func sourceCount() throws -> Int {
-        let rows = try db.query("SELECT COUNT(*) FROM sources") { stmt in
-            Int(stmt.int(0))
-        }
+        let rows = try db.query("SELECT COUNT(*) FROM sources") { Int($0.int(0)) }
         return rows.first ?? 0
     }
 
     func availableDomains() throws -> [String] {
-        try db.query(
-            "SELECT DISTINCT domain FROM chunks ORDER BY domain"
-        ) { stmt in
-            stmt.text(0)
-        }
+        try db.query("SELECT DISTINCT domain FROM chunks ORDER BY domain") { $0.text(0) }
     }
 
     // MARK: - Browse by domain
 
-    /// Return one representative chunk per file in the domain (the first section)
-    /// for use in the "Guide → domain" list view.
-    func topicsInDomain(_ domain: String) throws -> [Chunk] {
+    /// One representative chunk per file in a domain (`section_index = 0`),
+    /// for the Guide tab's domain list. Scores are zero — these aren't search results.
+    func topicsInDomain(_ domain: String) throws -> [RetrievedChunk] {
         let sql = """
         SELECT c.chunk_id, c.section_title, c.chunk_text, c.domain, c.topic,
                c.hazard_level, c.tags_json,
@@ -50,11 +42,11 @@ final class PackDatabase {
         ORDER BY c.topic, c.chunk_id
         """
         return try db.query(sql, bind: [.text(domain)]) { stmt in
-            try decodeChunk(stmt)
+            Self.decodeBrowseChunk(stmt)
         }
     }
 
-    func chunk(byID id: String) throws -> Chunk? {
+    func chunk(byID id: String) throws -> RetrievedChunk? {
         let sql = """
         SELECT c.chunk_id, c.section_title, c.chunk_text, c.domain, c.topic,
                c.hazard_level, c.tags_json,
@@ -64,23 +56,34 @@ final class PackDatabase {
         WHERE c.chunk_id = ?
         """
         let rows = try db.query(sql, bind: [.text(id)]) { stmt in
-            try decodeChunk(stmt)
+            Self.decodeBrowseChunk(stmt)
         }
         return rows.first
     }
 
     // MARK: - Search (FTS5 keyword retrieval)
 
-    /// Hybrid retrieval, v1: pure FTS5 keyword search using BM25 scoring.
-    /// Stopwords are filtered before forming the FTS query so common words
-    /// like "the" / "I" don't dominate ranking.
+    /// Pure FTS5 keyword retrieval for v1. Vector similarity gets layered in
+    /// when sqlite-vec ships on iOS — the result shape is identical so callers
+    /// don't change.
     ///
-    /// Phase 3 will layer vector similarity on top; the API shape stays the same.
-    func search(_ query: String, limit: Int = 8) throws -> [RetrievedChunk] {
+    /// Stopwords are filtered before forming the FTS query so common words
+    /// like "the" / "I" don't dominate BM25 ranking. Scores are normalized
+    /// to [0, 1] per the retrieval contract.
+    ///
+    /// - Parameters:
+    ///   - query: the user's natural-language question
+    ///   - limit: max chunks returned (`k` in the contract)
+    ///   - keywordWeight: weight for keyword score in the hybrid (default 0.3)
+    ///   - vectorWeight: weight for vector score (default 0.7) — unused in v1
+    func search(
+        _ query: String,
+        limit: Int = 5,
+        keywordWeight: Double = 0.3,
+        vectorWeight: Double = 0.7
+    ) throws -> [RetrievedChunk] {
         let terms = Self.tokenize(query)
         guard !terms.isEmpty else { return [] }
-
-        // Quote each term so FTS treats them as bareword tokens, OR-joined.
         let ftsExpr = terms.map { "\"\($0)\"" }.joined(separator: " OR ")
 
         let sql = """
@@ -96,29 +99,66 @@ final class PackDatabase {
         LIMIT ?
         """
 
-        // bm25 returns lower=better; flip sign so higher=better, then normalize.
-        var rows = try db.query(
+        // bm25() returns lower=better; flip sign so higher=better.
+        var raw = try db.query(
             sql,
             bind: [.text(ftsExpr), .int(Int64(limit))]
-        ) { stmt -> (Chunk, Double) in
-            let chunk = try decodeChunk(stmt)
-            let bm25 = stmt.double(11)
-            return (chunk, -bm25)
+        ) { stmt -> (Decoded, Double) in
+            (Self.decodeRow(stmt), -stmt.double(11))
         }
 
-        // Normalize raw scores to [0, 1] for a stable UI display.
-        if let max = rows.map(\.1).max(), let min = rows.map(\.1).min(), max > min {
-            rows = rows.map { ($0.0, ($0.1 - min) / (max - min)) }
+        // Normalize raw scores to [0, 1].
+        let keywordScores: [Double]
+        if let mx = raw.map(\.1).max(), let mn = raw.map(\.1).min(), mx > mn {
+            keywordScores = raw.map { ($0.1 - mn) / (mx - mn) }
         } else {
-            rows = rows.map { ($0.0, 1.0) }
+            keywordScores = raw.map { _ in 1.0 }
         }
 
-        return rows.map { RetrievedChunk(chunk: $0.0, score: $0.1) }
+        // Build RetrievedChunks. Vector score is 0.0 until sqlite-vec lands on iOS.
+        let out: [RetrievedChunk] = zip(raw, keywordScores).map { (pair, kwScore) in
+            let d = pair.0
+            let hybrid = keywordWeight * kwScore + vectorWeight * 0.0
+            return RetrievedChunk(
+                chunkId: d.chunkId,
+                sectionTitle: d.sectionTitle,
+                text: d.text,
+                domain: d.domain,
+                topic: d.topic,
+                hazardLevel: HazardLevel(raw: d.hazardLevelRaw),
+                tags: d.tags,
+                sourceTitle: d.sourceTitle,
+                sourcePublisher: d.sourcePublisher,
+                sourceURL: d.sourceURL,
+                sourceLicense: d.sourceLicense,
+                scoreKeyword: kwScore,
+                scoreVector: 0.0,
+                scoreHybrid: hybrid
+            )
+        }
+
+        // Contract guarantee: sorted by scoreHybrid descending.
+        return out.sorted { $0.scoreHybrid > $1.scoreHybrid }
     }
 
-    // MARK: - Internals
+    // MARK: - Row decoding
 
-    private func decodeChunk(_ stmt: Statement) throws -> Chunk {
+    /// Intermediate shape held during decode + score normalization.
+    private struct Decoded {
+        let chunkId: String
+        let sectionTitle: String
+        let text: String
+        let domain: String
+        let topic: String?
+        let hazardLevelRaw: String
+        let tags: [String]
+        let sourceTitle: String
+        let sourcePublisher: String
+        let sourceURL: String
+        let sourceLicense: String
+    }
+
+    private static func decodeRow(_ stmt: Statement) -> Decoded {
         let tagsJSON = stmt.text(6)
         let tags: [String] = {
             guard let data = tagsJSON.data(using: .utf8),
@@ -126,22 +166,43 @@ final class PackDatabase {
             else { return [] }
             return arr
         }()
-        return Chunk(
-            id: stmt.text(0),
+        return Decoded(
+            chunkId: stmt.text(0),
             sectionTitle: stmt.text(1),
             text: stmt.text(2),
             domain: stmt.text(3),
             topic: stmt.textOrNil(4),
-            hazardLevel: stmt.text(5),
+            hazardLevelRaw: stmt.text(5),
             tags: tags,
             sourceTitle: stmt.textOrNil(7) ?? "",
             sourcePublisher: stmt.textOrNil(8) ?? "",
-            sourceURL: stmt.textOrNil(9),
+            sourceURL: stmt.textOrNil(9) ?? "",
             sourceLicense: stmt.textOrNil(10) ?? ""
         )
     }
 
-    // Very-common English words filtered before FTS to keep BM25 useful.
+    private static func decodeBrowseChunk(_ stmt: Statement) -> RetrievedChunk {
+        let d = decodeRow(stmt)
+        return RetrievedChunk(
+            chunkId: d.chunkId,
+            sectionTitle: d.sectionTitle,
+            text: d.text,
+            domain: d.domain,
+            topic: d.topic,
+            hazardLevel: HazardLevel(raw: d.hazardLevelRaw),
+            tags: d.tags,
+            sourceTitle: d.sourceTitle,
+            sourcePublisher: d.sourcePublisher,
+            sourceURL: d.sourceURL,
+            sourceLicense: d.sourceLicense,
+            scoreKeyword: 0,
+            scoreVector: 0,
+            scoreHybrid: 0
+        )
+    }
+
+    // MARK: - Tokenization
+
     private static let stopwords: Set<String> = [
         "a", "an", "the", "and", "or", "but", "if", "of", "to", "in", "on", "at",
         "is", "are", "was", "were", "be", "been", "being",

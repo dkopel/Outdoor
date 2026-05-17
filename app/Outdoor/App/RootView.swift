@@ -6,8 +6,13 @@ enum RootTab: Hashable {
 
 /// Top-level tab navigation. Five-tap rule: any safety-critical action must
 /// be reachable in ≤ 2 taps from anywhere. Emergency is its own tab.
+///
+/// On first launch we present `OnboardingView` as a full-screen cover that
+/// walks through Welcome → Your pack → Verify offline. The flag is stored in
+/// `UserDefaults` via `@AppStorage` so it sticks across launches.
 struct RootView: View {
     @State private var tab: RootTab = .chat
+    @AppStorage("hasOnboarded") private var hasOnboarded: Bool = false
 
     var body: some View {
         TabView(selection: $tab) {
@@ -28,6 +33,12 @@ struct RootView: View {
                 .tag(RootTab.catalog)
         }
         .background(OColor.background.ignoresSafeArea())
+        .fullScreenCover(isPresented: .init(
+            get: { !hasOnboarded },
+            set: { presenting in if !presenting { hasOnboarded = true } }
+        )) {
+            OnboardingView()
+        }
     }
 }
 

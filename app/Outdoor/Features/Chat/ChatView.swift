@@ -226,7 +226,7 @@ private struct ChatContentView: View {
 
     private var thinkingIndicator: some View {
         HStack(spacing: OSpace.xs) {
-            ThinkingDots()
+            TypingDotsView()
             Text("Searching your pack")
                 .font(OType.labelM)
                 .foregroundStyle(OColor.textSecondary)
@@ -289,30 +289,6 @@ private struct ChatContentView: View {
     private func sendNow() {
         guard vm.canSend else { return }
         withAnimation(OMotion.soft) { vm.send() }
-    }
-}
-
-private struct ThinkingDots: View {
-    @State private var phase: Double = 0
-    var body: some View {
-        HStack(spacing: 4) {
-            ForEach(0..<3, id: \.self) { i in
-                Circle()
-                    .fill(OColor.ember)
-                    .frame(width: 6, height: 6)
-                    .opacity(opacity(for: i))
-            }
-        }
-        .frame(height: 16)
-        .onAppear {
-            withAnimation(.linear(duration: 0.9).repeatForever(autoreverses: false)) {
-                phase = 1
-            }
-        }
-    }
-    private func opacity(for i: Int) -> Double {
-        let p = (phase * 3 - Double(i)).truncatingRemainder(dividingBy: 3)
-        return max(0.25, 1.0 - abs(p - 1.0))
     }
 }
 

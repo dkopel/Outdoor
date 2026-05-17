@@ -48,11 +48,10 @@ struct MessageBubble: View {
             // Optional mode header for locked / safety-appendix answers
             modeHeader(for: decision)
 
-            // Framing paragraph
-            Text(message.text)
-                .font(OType.body)
-                .foregroundStyle(OColor.text)
-                .fixedSize(horizontal: false, vertical: true)
+            // Streaming-aware answer body. While the LLM is producing tokens
+            // we show whatever text has arrived plus a blinking cursor. Once
+            // complete, the framing paragraph reads as a normal answer.
+            answerBody
 
             // The retrieved excerpt(s)
             VStack(spacing: OSpace.s) {
@@ -77,6 +76,27 @@ struct MessageBubble: View {
         )
         .padding(.horizontal, OSpace.m)
         .transition(.opacity.combined(with: .move(edge: .bottom)))
+    }
+
+    /// Renders the streaming LLM answer (or the final text after the stream
+    /// completes). Shows a typing dots indicator while text is empty and the
+    /// stream is in flight; a blinking cursor while tokens arrive.
+    @ViewBuilder
+    private var answerBody: some View {
+        if message.isStreaming && message.text.isEmpty {
+            TypingDotsView()
+                .padding(.vertical, 2)
+        } else if message.isStreaming {
+            (Text(message.text) + Text(" ▌").foregroundColor(.accentColor))
+                .font(OType.body)
+                .foregroundStyle(OColor.text)
+                .fixedSize(horizontal: false, vertical: true)
+        } else {
+            Text(message.text)
+                .font(OType.body)
+                .foregroundStyle(OColor.text)
+                .fixedSize(horizontal: false, vertical: true)
+        }
     }
 
     private func refusalCard(decision: RouteDecision) -> some View {
@@ -158,19 +178,18 @@ struct MessageBubble: View {
     }
 
     private func chunkExcerpt(_ rc: RetrievedChunk) -> some View {
-        let c = rc.chunk
-        return VStack(alignment: .leading, spacing: OSpace.xs) {
+        VStack(alignment: .leading, spacing: OSpace.xs) {
             HStack(spacing: OSpace.xs) {
-                DomainIcon(domain: c.domain, size: 22)
-                Text(c.sectionTitle)
+                DomainIcon(domain: rc.domain, size: 22)
+                Text(rc.sectionTitle)
                     .font(OType.h3)
                     .foregroundStyle(OColor.text)
                 Spacer(minLength: 0)
-                if c.hazardLevel == "high" || c.hazardLevel == "critical" {
-                    HazardBadge(level: c.hazardLevel)
+                if rc.hazardLevel == .high || rc.hazardLevel == .critical {
+                    HazardBadge(level: rc.hazardLevel)
                 }
             }
-            Text(c.text)
+            Text(rc.text)
                 .font(OType.body)
                 .foregroundStyle(OColor.text)
                 .fixedSize(horizontal: false, vertical: true)

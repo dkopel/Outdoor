@@ -1,10 +1,12 @@
 import SwiftUI
 
-/// Minimal settings stub — expanded in Phase 5 (storage management, model
+/// Minimal settings view — expanded in Phase 5 (storage management, model
 /// selection, accessibility). Kept in the tree so the structure is real and
 /// future work has a clear home.
 struct SettingsView: View {
     @EnvironmentObject var packManager: PackManager
+    @AppStorage("hasOnboarded") private var hasOnboarded: Bool = false
+    @State private var showOnboarding = false
 
     var body: some View {
         NavigationStack {
@@ -26,11 +28,23 @@ struct SettingsView: View {
                     Label("Nothing is sent to a network", systemImage: "wifi.slash")
                 }
 
+                Section("Diagnostics") {
+                    Button {
+                        showOnboarding = true
+                    } label: {
+                        Label("Run offline check again", systemImage: "antenna.radiowaves.left.and.right.slash")
+                    }
+                }
+
                 Section("About") {
                     LabeledContent("App version", value: appVersion)
                 }
             }
             .navigationTitle("Settings")
+            .fullScreenCover(isPresented: $showOnboarding) {
+                OnboardingView(onComplete: { showOnboarding = false })
+                    .environmentObject(packManager)
+            }
         }
     }
 
