@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.python-version
+
+# Node
+node_modules/
+.expo/
+*.log
+
+# Swift / iOS / Xcode
+ios/Pods/
+ios/build/
+app/**/build/
+*.xcuserstate
+DerivedData/
+*.xcscmblueprint
+xcuserdata/
+
+# Pack build artifacts
+dist/*.trailpack
+dist/build/
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
+
+# Model weights (big files; downloaded out-of-band)
+*.gguf
+*.safetensors
+*.mlx
+models/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Keep empty dist
+!dist/.gitkeep
