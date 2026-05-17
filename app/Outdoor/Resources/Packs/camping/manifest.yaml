@@ -28,10 +28,10 @@ content_domains:
 - food
 - gear-fixes
 - trip-basics
-chunk_count: 659
-source_count: 122
-created_at: '2026-05-17T01:17:46+00:00'
+chunk_count: 749
+source_count: 135
+created_at: '2026-05-17T01:35:44+00:00'
 hashes:
-  pack.sqlite: 8c8b43c020fbfe385e4a7808fbe3d56216ef77280dcadaac5284ce9b089803bf
-  vectors.sqlite: 2fb27ea85b1865f591c7225d9b4f24c2b2215e0866e2f667a511999391b873ca
-  safety_rules.yaml: fe39aa0cd7afe7e39a31396eabffbf2ffadd83294f904c6acb347407976968f2
+  pack.sqlite: 1fa0e9cdfcd29114073275108a0e7b319f80f99c70e7418ecb383dec5f6e056d
+  vectors.sqlite: ab39b23cd852fe431dbaf1ebb1c45de87f4177b61705c610cc500fab16df304a
+  safety_rules.yaml: 30f8dee1578bfc634c5a981852713cc2bfbb099874e36bb8e0e772304f3ac0c5

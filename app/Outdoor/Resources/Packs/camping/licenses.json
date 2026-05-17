@@ -23,6 +23,12 @@
     "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm",
     "license": "public-domain"
   },
+  "6f085a8a4232d4cc": {
+    "title": "Primitive Fire Starting",
+    "publisher": "U.S. Army FM 21-76 Survival (public domain)",
+    "url": "https://armypubs.army.mil/",
+    "license": "public-domain"
+  },
   "1eaa0c7333989b15": {
     "title": "Signaling for Rescue with Fire",
     "publisher": "General survival practice",
@@ -359,10 +365,52 @@
     "url": "https://plants.usda.gov/",
     "license": "public-domain"
   },
+  "ed93286140f533f1": {
+    "title": "Datura / Jimsonweed (Datura stramonium)",
+    "publisher": "USDA / U.S. NIH MedlinePlus",
+    "url": "https://medlineplus.gov/ency/article/002881.htm",
+    "license": "author"
+  },
+  "3c18a145352e9d6c": {
+    "title": "Death Camas (Zigadenus species)",
+    "publisher": "USDA / U.S. Forest Service FEIS",
+    "url": "https://www.fs.usda.gov/database/feis/plants/forb/zigven/all.html",
+    "license": "author"
+  },
+  "76a09ad629b7eb2c": {
+    "title": "Death Cap Mushroom (Amanita phalloides)",
+    "publisher": "U.S. CDC / California Department of Public Health",
+    "url": "https://www.cdph.ca.gov/Programs/CCDPHP/DEODC/EHIB/Pages/AmanitaPhalloides.aspx",
+    "license": "author"
+  },
+  "6d3b682a16bb00e3": {
+    "title": "Destroying Angel (Amanita virosa, A. bisporigera, A. ocreata)",
+    "publisher": "North American Mycological Association / CDC",
+    "url": "https://namyco.org/toxicology.php",
+    "license": "author"
+  },
+  "aa3fcddd49729b5e": {
+    "title": "Devil's Club (Oplopanax horridus)",
+    "publisher": "U.S. Forest Service / USDA",
+    "url": "https://www.fs.usda.gov/database/feis/plants/shrub/oplhor/all.html",
+    "license": "author"
+  },
   "f5875c53f2bc416a": {
     "title": "Wild Edible Plant Safety",
     "publisher": "general wilderness practice",
     "url": "",
+    "license": "author"
+  },
+  "d9ce5e51734705fc": {
+    "title": "False Morels (Gyromitra species)",
+    "publisher": "North American Mycological Association",
+    "url": "https://namyco.org/false_morels_and_lookalikes.php",
+    "license": "author"
+  },
+  "6ac58b83cdc6c615": {
+    "title": "Foxglove (Digitalis purpurea)",
+    "publisher": "USDA / U.S. NIH MedlinePlus",
+    "url": "https://medlineplus.gov/ency/article/002878.htm",
     "license": "author"
   },
   "768c59bbe226d1f6": {
@@ -377,6 +425,18 @@
     "url": "https://www.fdacs.gov/Forest-Wildfire/Our-Forests/Forest-Health/Plants/Manchineel",
     "license": "author"
   },
+  "22ab8d7c7e19c14b": {
+    "title": "Mountain Laurel, Rhododendron, and Azalea",
+    "publisher": "U.S. NIH / Appalachian Mountain Club practice",
+    "url": "https://medlineplus.gov/ency/article/002873.htm",
+    "license": "author"
+  },
+  "436abc7bd72a9639": {
+    "title": "Oleander (Nerium oleander)",
+    "publisher": "U.S. NIH MedlinePlus",
+    "url": "https://medlineplus.gov/ency/article/002884.htm",
+    "license": "author"
+  },
   "d6694a5ae5a6be1c": {
     "title": "Poison Hemlock and Water Hemlock",
     "publisher": "USDA / U.S. Forest Service FEIS",
@@ -389,16 +449,34 @@
     "url": "https://www.cdc.gov/niosh/topics/plants/index.html",
     "license": "author"
   },
+  "8b78381819055ed2": {
+    "title": "Pokeweed (Phytolacca americana)",
+    "publisher": "USDA / Southeast extension services",
+    "url": "https://www.fs.usda.gov/database/feis/plants/forb/phyame/all.html",
+    "license": "author"
+  },
   "a7644a346f9eb7a3": {
     "title": "Stinging Nettle (Urtica dioica) \u2014 Plant Profile",
     "publisher": "USDA PLANTS Database / USFS Fire Effects Information System (FEIS)",
     "url": "https://plants.usda.gov/plant-profile/URDI",
     "license": "public-domain"
   },
+  "f1624624600606d8": {
+    "title": "Water Hemlock (Cicuta species)",
+    "publisher": "USDA / U.S. Forest Service FEIS",
+    "url": "https://www.fs.usda.gov/database/feis/plants/forb/cicspp/all.html",
+    "license": "author"
+  },
   "df9043d5ab29fae0": {
     "title": "Toxic Mushrooms",
     "publisher": "U.S. CDC / North American Mycological Association practice",
     "url": "https://www.cdc.gov/mmwr/preview/mmwrhtml/mm5602a3.htm",
+    "license": "author"
+  },
+  "272377f2b241ea46": {
+    "title": "Yew (Taxus species)",
+    "publisher": "U.S. NIH MedlinePlus / USDA",
+    "url": "https://medlineplus.gov/ency/article/002883.htm",
     "license": "author"
   },
   "da5d701c1c5d8411": {

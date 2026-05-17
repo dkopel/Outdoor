@@ -31,9 +31,19 @@
   - edible mushroom
   - identify mushroom
   - edible berry
+  - edible plant
+  - safe to forage
+  - safe to pick
   - foraging
+  - forage
+  - wild edible
+  - this mushroom
+  - this berry
+  - this plant
   refuse_patterns:
-  - (safe to eat|can i eat|is this edible)
+  - (safe to eat|can i eat|is this edible|is .{1,30} edible|edible\?)
+  - (safe to forage|safe to pick|can i pick)
+  - (what (plants?|berries|mushrooms?) (are |is )?(safe|edible))
   risk: critical
   answer_mode: refuse_with_warning
   must_include:
@@ -45,8 +55,14 @@
   - eat this fish
   - eat this animal
   - safe to eat the meat
+  - is this fish
+  - is this animal
+  - edible fish
+  - edible animal
+  - edible meat
   refuse_patterns:
-  - (safe to eat|can i eat)
+  - (is .{1,30} (fish|meat|game|animal|crab|shellfish) (safe|edible))
+  - (this (fish|meat|game|animal|crab|shellfish) (safe|edible))
   risk: critical
   answer_mode: refuse_with_warning
   must_include:
